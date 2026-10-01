@@ -1,0 +1,883 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>人資安全動畫課</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#eef6f1; --page:#0f1a14; --ink:#1d2b24; --muted:#5d6b64; --paper:#ffffff;
+  --green:#12b886; --green-d:#0b8a63; --lime:#40e0a0;
+  --blue:#228be6; --blue-l:#e7f2fd;
+  --red:#f03e3e; --red-l:#fff0f0;
+  --amber:#f59f00; --amber-l:#fff6e0;
+  --purple:#7048e8; --pink:#e64980;
+  --ops-l:#e6fbf3;
+  --shadow:0 10px 30px rgba(20,60,40,.14);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --page:#0b110e; }
+}
+:root[data-theme="dark"]{ --page:#0b110e; }
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--page);color:var(--ink);font-family:"Noto Sans TC","WenQuanYi Zen Hei","Microsoft JhengHei",sans-serif;overflow:hidden}
+
+/* ---------- stage (1920×1080, scaled to fit) ---------- */
+#viewport{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+#stage{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden;
+  background:radial-gradient(1200px 700px at 30% 10%,#ffffff 0%,var(--bg) 60%,#dff0e7 100%)}
+#stage::before{content:"";position:absolute;inset:0;
+  background-image:radial-gradient(rgba(18,184,134,.12) 2px,transparent 2.5px);background-size:36px 36px;pointer-events:none}
+
+/* ---------- top bar ---------- */
+.topbar{position:absolute;left:40px;right:40px;top:22px;height:84px;display:flex;align-items:center;gap:18px;z-index:5}
+.brand{display:flex;align-items:center;gap:12px;background:var(--paper);border-radius:22px;padding:10px 20px;box-shadow:var(--shadow);font-weight:900;font-size:24px;white-space:nowrap}
+.brand .dot{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--lime),var(--green-d));display:grid;place-items:center;color:#fff;font-size:18px}
+.phases{display:flex;flex:1;height:64px;filter:drop-shadow(0 6px 12px rgba(0,0,0,.08))}
+.ph{flex:1;display:flex;align-items:center;justify-content:center;font-size:27px;font-weight:900;color:#5f8a76;background:#d3eadf;
+  clip-path:polygon(0 0,calc(100% - 30px) 0,100% 50%,calc(100% - 30px) 100%,0 100%,30px 50%);margin-left:-18px;transition:all .5s}
+.ph:first-child{clip-path:polygon(0 0,calc(100% - 30px) 0,100% 50%,calc(100% - 30px) 100%,0 100%);margin-left:0;border-radius:14px 0 0 14px}
+.ph.on{background:linear-gradient(90deg,#34e89e,#0fb97a);color:#073b27;transform:scale(1.04)}
+.ph.done{background:#b7e4cf;color:#2d6b52}
+.nda-pill{white-space:nowrap;background:var(--paper);color:var(--red);border:3px solid var(--red);border-radius:40px;padding:8px 18px;font-weight:900;font-size:22px;transition:all .5s;opacity:.55}
+.nda-pill.on{background:var(--red);color:#fff;opacity:1;transform:scale(1.06)}
+
+/* ---------- scenes ---------- */
+.scene{position:absolute;left:50px;top:128px;width:1310px;height:752px;opacity:0;transform:translateX(70px) scale(.98);transition:opacity .6s,transform .7s cubic-bezier(.2,.9,.25,1);pointer-events:none}
+.scene.active{opacity:1;transform:none}
+.scene.past{transform:translateX(-70px) scale(.98)}
+.page{position:absolute;inset:0}
+
+[data-s]{opacity:0;transform:translateY(34px) scale(.95);transition:opacity .45s ease,transform .6s cubic-bezier(.34,1.56,.64,1)}
+[data-s].on{opacity:1;transform:none}
+[data-s].pop{transform:scale(.4)}
+[data-s].pop.on{transform:none}
+[data-s].left{transform:translateX(-60px)}
+[data-s].left.on{transform:none}
+[data-until].gone{opacity:0 !important;transform:translateY(-24px) scale(.97) !important;transition:opacity .35s,transform .4s}
+
+.h1{display:flex;align-items:center;gap:18px;margin-bottom:22px}
+.code{background:var(--ink);color:#fff;font-weight:900;font-size:40px;padding:6px 20px;border-radius:16px;letter-spacing:1px}
+.h1 h2{font-size:52px;font-weight:900;letter-spacing:1px}
+.h1 .en{font-size:24px;color:var(--muted);font-weight:700;margin-left:4px}
+.tag{display:inline-flex;align-items:center;gap:8px;font-size:22px;font-weight:900;padding:6px 14px;border-radius:30px;color:#fff;white-space:nowrap}
+.t-ops{background:var(--green)}.t-audit{background:var(--blue)}.t-ng{background:var(--red)}.t-case{background:var(--amber)}.t-phase{background:#37b24d}
+
+.req{background:var(--paper);border-left:12px solid var(--ink);border-radius:18px;padding:18px 26px;font-size:28px;line-height:1.55;box-shadow:var(--shadow);font-weight:700}
+.req b{color:var(--green-d)}
+.req .lbl{display:inline-block;font-size:20px;color:#fff;background:var(--ink);border-radius:8px;padding:2px 10px;margin-right:10px;vertical-align:4px}
+
+.card{background:var(--paper);border-radius:24px;box-shadow:var(--shadow);padding:22px 26px;position:relative;border-top:10px solid #ccc}
+.card.ops{border-color:var(--green)}.card.audit{border-color:var(--blue)}.card.ng{border-color:var(--red)}.card.case{border-color:var(--amber);background:linear-gradient(180deg,#fffdf6,#fff)}
+.card h3{font-size:30px;font-weight:900;display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.card ul{list-style:none}
+.card li{font-size:27px;line-height:1.5;padding:7px 0 7px 46px;position:relative;font-weight:700}
+.card li::before{position:absolute;left:0;top:9px;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:20px;font-weight:900}
+.card.ops li::before{content:"✓";background:var(--green)}
+.card.audit li::before{content:"Q";background:var(--blue)}
+.card.ng li::before{content:"✕";background:var(--red)}
+.card li small{display:block;font-size:22px;color:var(--muted);font-weight:500}
+.card p{font-size:26px;line-height:1.6;font-weight:500}
+.num{display:inline-grid;place-items:center;width:46px;height:46px;border-radius:50%;background:var(--green);color:#fff;font-weight:900;font-size:26px;flex:none}
+.stamp{position:absolute;right:22px;top:-26px;transform:rotate(8deg);font-weight:900;font-size:24px;color:var(--red);border:4px solid var(--red);border-radius:12px;padding:2px 12px;background:#fff}
+
+.row{display:flex;gap:24px}
+.col{display:flex;flex-direction:column;gap:20px}
+.grow{flex:1}
+.hl{background:linear-gradient(transparent 60%,#fff3a3 60%);padding:0 4px}
+.red{color:var(--red)}.green{color:var(--green-d)}.blue{color:var(--blue)}
+
+/* ---------- title scene ---------- */
+.title-wrap{position:absolute;left:30px;top:70px;right:0}
+.title-wrap .kicker{display:inline-block;background:var(--ink);color:#fff;font-size:28px;font-weight:900;border-radius:14px;padding:8px 20px}
+.title-wrap h1{font-size:150px;font-weight:900;line-height:1.1;margin-top:20px;letter-spacing:6px;
+  background:linear-gradient(90deg,#0b8a63,#12b886 50%,#228be6);-webkit-background-clip:text;background-clip:text;color:transparent}
+.title-wrap .en{font-size:46px;font-weight:900;color:#2d4a3e;letter-spacing:2px}
+.title-wrap .sub{font-size:30px;color:var(--muted);margin-top:16px;font-weight:700}
+.three{position:absolute;left:30px;bottom:30px;display:flex;gap:24px}
+.three .b{width:380px;height:150px;border-radius:28px;color:#fff;font-size:40px;font-weight:900;display:flex;align-items:center;justify-content:center;gap:16px;box-shadow:var(--shadow)}
+.three .b span{font-size:52px}
+
+/* ---------- overview ---------- */
+.ov-attr{display:flex;align-items:center;gap:14px;font-size:26px;font-weight:700;margin-bottom:18px;flex-wrap:wrap}
+.chip{background:#fff;border:3px solid #cfd8d3;border-radius:30px;padding:4px 16px;font-weight:900;font-size:24px;color:var(--muted)}
+.chip.hot{border-color:var(--green);color:var(--green-d);background:var(--ops-l)}
+.ov-cols{display:flex;gap:22px;height:470px}
+.ov-col{flex:1;background:#fff;border-radius:26px;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column}
+.ov-col .hd{background:linear-gradient(90deg,#34e89e,#0fb97a);color:#073b27;font-weight:900;font-size:32px;text-align:center;padding:14px}
+.ov-col:nth-child(3) .hd{background:linear-gradient(90deg,#1fb36b,#2f9e44);color:#fff}
+.ov-col .bd{padding:18px 22px;display:flex;flex-direction:column;gap:12px}
+.ov-col .ctl{font-size:29px;font-weight:900}
+.ov-col .ctl b{color:var(--green-d);margin-right:8px}
+.bubbles{display:flex;gap:12px;flex-wrap:wrap;margin-top:auto;padding:0 22px 22px}
+.bub{width:112px;height:112px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#dbe7fb,#9fb8ea);display:grid;place-items:center;text-align:center;font-weight:900;font-size:22px;color:#203a6b;line-height:1.2;box-shadow:inset 0 -6px 0 rgba(0,0,0,.06)}
+.ndaband{margin-top:22px;height:78px;border-radius:40px;background:repeating-linear-gradient(45deg,#f03e3e 0 26px,#e03131 26px 52px);color:#fff;font-size:32px;font-weight:900;display:flex;align-items:center;justify-content:center;gap:20px;box-shadow:0 10px 24px rgba(240,62,62,.35);position:relative;overflow:hidden}
+.ndaband::after{content:"";position:absolute;top:0;bottom:0;width:120px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);animation:shine 2.6s linear infinite}
+@keyframes shine{from{left:-140px}to{left:110%}}
+
+/* ---------- misc graphics ---------- */
+.tiers{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+.tier{display:flex;align-items:center;gap:14px;font-size:24px;font-weight:700}
+.tier .bar{height:40px;border-radius:12px;display:flex;align-items:center;padding:0 14px;color:#fff;font-weight:900;white-space:nowrap}
+.timeline{display:flex;align-items:center;gap:0;margin:8px 0 4px}
+.tl-node{display:flex;flex-direction:column;align-items:center;gap:8px;width:220px}
+.tl-dot{width:74px;height:74px;border-radius:50%;display:grid;place-items:center;font-size:34px;font-weight:900;color:#fff}
+.tl-node span{font-size:24px;font-weight:900;text-align:center}
+.tl-arrow{flex:1;height:8px;background:#adb5bd;border-radius:4px;position:relative;min-width:40px}
+.tl-arrow::after{content:"";position:absolute;right:-6px;top:-10px;border-left:20px solid #adb5bd;border-top:14px solid transparent;border-bottom:14px solid transparent}
+.big-ok,.big-ng{font-size:40px;font-weight:900;margin-left:16px}
+.big-ok{color:var(--green)}.big-ng{color:var(--red)}
+
+.circles3{display:flex;gap:40px;justify-content:center}
+.c3{width:260px;text-align:center}
+.c3 .ball{width:200px;height:200px;margin:0 auto 14px;border-radius:50%;display:grid;place-items:center;font-size:48px;font-weight:900;color:#fff;box-shadow:0 14px 26px rgba(0,0,0,.15)}
+.c3 .q{font-size:30px;font-weight:900}
+.c3 .ex{font-size:23px;color:var(--muted);font-weight:700;margin-top:4px}
+.chart{display:flex;align-items:flex-end;gap:60px;height:330px;padding:0 40px;border-bottom:5px solid #ced4da}
+.barc{width:150px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.barc .v{font-size:46px;font-weight:900;margin-bottom:6px}
+.barc .fill{width:100%;border-radius:18px 18px 0 0;height:0;transition:height 1.3s cubic-bezier(.2,.9,.25,1) .25s}
+.on .barc .fill.h23{height:250px}.on .barc .fill.h4{height:44px}
+.barc .lb{position:absolute;bottom:-46px;font-size:22px;font-weight:900;color:var(--muted);white-space:nowrap}
+.barc{position:relative}
+
+.scale{display:flex;flex-direction:column;align-items:center}
+.beam{width:520px;height:16px;background:var(--ink);border-radius:8px;position:relative;animation:tilt 3.4s ease-in-out infinite;transform-origin:50% 50%}
+@keyframes tilt{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
+.pan{position:absolute;top:16px;width:160px;height:160px;display:flex;flex-direction:column;align-items:center}
+.pan .str{width:4px;height:50px;background:var(--ink)}
+.pan .dish{width:160px;height:100px;border-radius:0 0 80px 80px;display:grid;place-items:center;font-size:44px;font-weight:900;color:#fff}
+.post{width:18px;height:170px;background:var(--ink);border-radius:6px}
+.foot{width:200px;height:20px;background:var(--ink);border-radius:10px}
+
+.say{display:flex;gap:14px;align-items:flex-start;margin-bottom:12px}
+.say .av{width:56px;height:56px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font-weight:900;font-size:22px;flex:none}
+.say .bb{background:var(--blue-l);border-radius:4px 22px 22px 22px;padding:12px 20px;font-size:26px;font-weight:700}
+
+.three-things{display:flex;gap:20px}
+.thing{flex:1;background:#fff;border-radius:24px;box-shadow:var(--shadow);padding:24px;text-align:center;border-bottom:10px solid var(--green)}
+.thing .ic{font-size:70px;line-height:1.2}
+.thing h4{font-size:32px;font-weight:900;margin:6px 0}
+.thing p{font-size:23px;color:var(--muted);font-weight:700}
+.thing .ref{display:inline-block;margin-top:8px;background:var(--ink);color:#fff;border-radius:10px;padding:2px 12px;font-size:21px;font-weight:900}
+
+.creep{display:flex;align-items:flex-end;gap:30px;justify-content:center}
+.stack{display:flex;flex-direction:column-reverse;gap:6px;align-items:center}
+.blk{width:230px;height:52px;border-radius:12px;color:#fff;font-weight:900;font-size:22px;display:grid;place-items:center;position:relative}
+.blk.x::after{content:"";position:absolute;left:-8px;right:-8px;top:50%;height:6px;background:var(--red);transform:rotate(-8deg);border-radius:3px}
+.stack .cap{font-size:24px;font-weight:900;margin-top:10px}
+
+table.mini{border-collapse:separate;border-spacing:0;width:100%;font-size:24px;background:#fff;border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}
+table.mini th{background:var(--ink);color:#fff;padding:12px 14px;text-align:left;font-weight:900}
+table.mini td{padding:12px 14px;border-bottom:2px solid #edf0ee;font-weight:700}
+table.mini tr.bad td{background:var(--red-l);color:#c92a2a}
+table.mini tr.bad{animation:blink 1.2s ease-in-out infinite}
+@keyframes blink{50%{opacity:.55}}
+
+.doc{width:430px;background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:26px 30px;position:relative;border:3px solid #dee2e6}
+.doc .dh{font-size:32px;font-weight:900;text-align:center;border-bottom:3px dashed #ced4da;padding-bottom:10px;margin-bottom:10px}
+.doc .cl{font-size:25px;font-weight:700;padding:7px 0;display:flex;gap:10px;align-items:center}
+.doc .cl i{font-style:normal;color:var(--green);font-weight:900}
+.seal{position:absolute;right:-22px;bottom:-22px;width:120px;height:120px;border-radius:50%;border:6px solid var(--red);color:var(--red);font-weight:900;font-size:26px;display:grid;place-items:center;transform:rotate(-14deg);background:rgba(255,255,255,.9)}
+.cloud{display:flex;flex-wrap:wrap;gap:14px}
+.cloud .chip{font-size:27px;padding:8px 20px;border-color:var(--purple);color:var(--purple);background:#f3f0ff}
+
+.tbls{display:flex;gap:26px;justify-content:center;align-items:center}
+.tbl{width:330px;background:#fff;border-radius:22px;box-shadow:var(--shadow);overflow:hidden}
+.tbl .th{padding:14px;color:#fff;font-weight:900;font-size:28px;text-align:center}
+.tbl .tr{height:34px;margin:10px 16px;border-radius:8px;background:#f1f3f5}
+.tbl .tr.k{background:linear-gradient(90deg,#ffe066 0 30%,#f1f3f5 30%)}
+.tbl .tx{font-size:21px;color:var(--muted);font-weight:700;padding:0 16px 14px}
+.keyc{width:150px;height:150px;border-radius:50%;background:var(--ink);color:#ffe066;display:grid;place-items:center;text-align:center;font-weight:900;font-size:26px;line-height:1.3;box-shadow:0 0 0 12px rgba(255,224,102,.35)}
+.finds{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:26px}
+.find{background:#fff;border-left:12px solid var(--red);border-radius:16px;padding:16px 22px;font-size:28px;font-weight:900;box-shadow:var(--shadow)}
+
+.rank{display:flex;flex-direction:column;gap:13px}
+.rk{display:flex;align-items:center;gap:20px;background:#fff;border-radius:20px;box-shadow:var(--shadow);padding:12px 22px;font-size:30px;font-weight:900}
+.rk .n{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:32px;flex:none;background:#868e96}
+.rk.r1{background:linear-gradient(90deg,#fff3bf,#fff);box-shadow:0 0 0 5px #fab005,var(--shadow)}
+.rk.r1 .n{background:#fab005}.rk.r2 .n{background:#adb5bd}.rk.r3 .n{background:#d9480f}
+.rk .ctl{margin-left:auto;font-size:22px;color:var(--muted)}
+.tip{margin-top:14px;background:var(--ink);color:#fff;border-radius:20px;padding:16px 24px;font-size:27px;font-weight:900;display:flex;align-items:center;gap:16px}
+
+.qa{display:flex;flex-direction:column;gap:16px}
+.q{background:#fff;border-radius:22px;padding:20px 26px;font-size:29px;font-weight:900;box-shadow:var(--shadow);border-left:14px solid var(--pink);display:flex;gap:16px}
+.q .qq{color:var(--pink);font-size:36px}
+.a{background:var(--ops-l);border-radius:22px;padding:18px 26px;font-size:28px;font-weight:700;border:3px solid var(--green);margin-left:60px;display:flex;gap:16px}
+.a .aa{color:var(--green-d);font-size:36px;font-weight:900}
+
+.sum{display:flex;gap:20px}
+.sum .ov-col .bd{font-size:38px;font-weight:900;line-height:1.6;text-align:center;padding-top:22px}
+.motto{margin-top:26px;text-align:center;font-size:62px;font-weight:900;color:var(--ink);background:#fff;border-radius:30px;padding:22px;box-shadow:var(--shadow)}
+.motto em{font-style:normal;color:var(--red)}
+
+/* ---------- characters ---------- */
+.charw{position:absolute;z-index:6;transition:transform .4s,filter .4s,opacity .5s}
+.charw svg{width:100%;height:auto;display:block;overflow:visible}
+.charw.allan{left:1600px;top:400px;width:310px}
+.charw.arale{left:1372px;top:500px;width:250px}
+.charw.speaking{filter:drop-shadow(0 0 22px rgba(255,214,10,.75))}
+.charw .inner{animation:breathe 3.2s ease-in-out infinite;transform-origin:50% 100%}
+@keyframes breathe{0%,100%{transform:translateY(0) scaleY(1)}50%{transform:translateY(-5px) scaleY(1.01)}}
+.eyes{animation:blinkEye 4.6s infinite;transform-box:fill-box;transform-origin:center}
+@keyframes blinkEye{0%,93%,100%{transform:scaleY(1)}95.5%{transform:scaleY(.1)}}
+.m-open{opacity:0}
+.speaking .m-open{animation:talk .26s steps(1) infinite}
+.speaking .m-closed{animation:talk2 .26s steps(1) infinite}
+@keyframes talk{0%{opacity:1}50%{opacity:0}}
+@keyframes talk2{0%{opacity:0}50%{opacity:1}}
+.speaking .head{animation:nod .9s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 90%}
+@keyframes nod{0%,100%{transform:rotate(0)}30%{transform:rotate(-2.5deg)}70%{transform:rotate(2deg)}}
+.allan .arm-r{transform-box:fill-box;transform-origin:0% 100%}
+.allan.speaking .arm-r{animation:point 1.8s ease-in-out infinite}
+@keyframes point{0%,100%{transform:rotate(0)}50%{transform:rotate(-12deg)}}
+
+.arale .arm{transform-box:fill-box;transition:transform .4s}
+.arale .arm-l{transform-origin:100% 0%}.arale .arm-r{transform-origin:0% 0%}
+.arale.emo-jump .inner{animation:hop .55s ease-in-out 3}
+@keyframes hop{0%,100%{transform:translateY(0)}45%{transform:translateY(-58px) rotate(-4deg)}}
+.arale.emo-jump .arm-l{transform:rotate(62deg)}
+.arale.emo-jump .arm-r{transform:rotate(-62deg)}
+.arale.emo-shock .inner{animation:shake .12s linear 10}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.arale.emo-think .head{transform:rotate(-9deg);transition:transform .4s}
+.arale.emo-wow .inner{animation:wow .5s cubic-bezier(.34,1.56,.64,1) 1}
+@keyframes wow{0%{transform:scale(.85)}100%{transform:scale(1)}}
+.emo{position:absolute;opacity:0;transform:scale(.3);transition:all .35s cubic-bezier(.34,1.56,.64,1);font-weight:900;pointer-events:none}
+.emo.show{opacity:1;transform:scale(1)}
+.emo.bang{left:196px;top:-14px;font-size:84px;color:var(--red);text-shadow:0 4px 0 #fff}
+.emo.qm{left:200px;top:-10px;font-size:84px;color:var(--blue);text-shadow:0 4px 0 #fff}
+.emo.sweat{left:206px;top:40px;font-size:56px}
+.emo.star{left:-10px;top:-6px;font-size:58px}
+.arale.away{transform:translateX(-520px) rotate(-14deg);opacity:0}
+.arale.arrive{transition:transform .8s cubic-bezier(.2,1.3,.4,1),opacity .4s}
+
+/* ---------- subtitles ---------- */
+.subs{position:absolute;left:40px;right:40px;top:902px;height:150px;background:rgba(255,255,255,.96);border-radius:30px;box-shadow:0 12px 30px rgba(0,0,0,.14);display:flex;align-items:center;padding:0 40px 0 46px;z-index:8;border:4px solid #dfe9e4;transition:border-color .3s,opacity .3s}
+.subs.allan{border-color:#2f4a8a}.subs.arale{border-color:var(--pink)}
+.subs.hide{opacity:0}
+.subs .who{position:absolute;left:40px;top:-24px;font-size:24px;font-weight:900;color:#fff;border-radius:16px;padding:4px 18px;background:#2f4a8a}
+.subs.arale .who{background:var(--pink)}
+.subs .txt{font-size:38px;line-height:1.45;font-weight:700;letter-spacing:.5px}
+body.nosubs .subs{opacity:0}
+
+/* ---------- player UI (not part of the 1920×1080 stage) ---------- */
+#ui{position:fixed;left:0;right:0;bottom:0;padding:10px 16px 14px;background:linear-gradient(transparent,rgba(0,0,0,.8));color:#fff;display:flex;flex-direction:column;gap:8px;z-index:20;transition:opacity .4s;font-size:15px}
+body.idle #ui{opacity:0}
+#bar{position:relative;height:10px;background:rgba(255,255,255,.25);border-radius:6px;cursor:pointer}
+#fill{position:absolute;left:0;top:0;bottom:0;background:var(--lime);border-radius:6px;width:0}
+.mk{position:absolute;top:-3px;width:4px;height:16px;background:#fff;border-radius:2px;opacity:.7}
+.ctrls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ctrls button,.ctrls select{background:rgba(255,255,255,.14);color:#fff;border:0;border-radius:10px;padding:8px 12px;font:inherit;font-weight:700;cursor:pointer;min-height:38px}
+.ctrls button:hover{background:rgba(255,255,255,.28)}
+.ctrls select option{color:#000}
+#time{font-variant-numeric:tabular-nums;opacity:.9;margin-left:4px}
+#chap{max-width:240px}
+.sp{flex:1}
+#start{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;background:rgba(8,20,14,.72);color:#fff;text-align:center;padding:16px}
+#start button{font:inherit;font-size:28px;font-weight:900;background:linear-gradient(90deg,#34e89e,#0fb97a);color:#062c1d;border:0;border-radius:60px;padding:18px 44px;cursor:pointer;box-shadow:0 10px 30px rgba(52,232,158,.4)}
+#start h1{font-size:clamp(28px,5vw,56px);font-weight:900}
+#start p{opacity:.85;font-size:clamp(14px,2vw,18px)}
+body.record #ui,body.record #start{display:none}
+</style>
+</head>
+<body>
+<div id="viewport">
+<div id="stage">
+
+  <!-- top bar -->
+  <div class="topbar">
+    <div class="brand"><span class="dot">A6</span>ISMS 人資安全</div>
+    <div class="phases">
+      <div class="ph" data-ph="1">聘用前</div>
+      <div class="ph" data-ph="2">聘用期間</div>
+      <div class="ph" data-ph="3">聘用終止或變更</div>
+    </div>
+    <div class="nda-pill">6.6 保密協議・貫穿全程</div>
+  </div>
+
+  <!-- s00 開場 -->
+  <section class="scene" data-scene="0">
+    <div class="title-wrap">
+      <span class="kicker">ISO/IEC 27001:2022 附錄A 6.1～6.6</span>
+      <h1>人資安全</h1>
+      <div class="en">Human Resource Security</div>
+      <div class="sub">控制屬性「運作能力」分類｜依員工生命週期看懂 ISMS 實務</div>
+    </div>
+    <div class="three">
+      <div class="b pop" data-s="1" style="background:var(--green)"><span>🛠️</span>ISMS作業重點</div>
+      <div class="b pop" data-s="1" style="background:var(--blue);transition-delay:.25s"><span>🔍</span>稽核查核重點</div>
+      <div class="b pop" data-s="1" style="background:var(--red);transition-delay:.5s"><span>⚠️</span>常見的缺失</div>
+    </div>
+  </section>
+
+  <!-- s01 總覽 -->
+  <section class="scene" data-scene="1">
+    <div class="ov-attr" data-s="1">
+      <span class="tag t-phase">控制主題</span>
+      <span class="chip">組織 5.x</span><span class="chip hot">人員 6.x</span><span class="chip">實體 7.x</span><span class="chip">技術 8.x</span>
+      <span style="margin-left:10px">屬性「運作能力」→</span><span class="chip hot">Human resource security 人資安全</span>
+    </div>
+    <div class="ov-cols">
+      <div class="ov-col" data-s="2">
+        <div class="hd">① 聘用前</div>
+        <div class="bd"><div class="ctl"><b>6.1</b>篩選</div><div class="ctl"><b>6.2</b>聘用條款及條件</div></div>
+        <div class="bubbles"><div class="bub">考量<br>風險</div><div class="bub">背景<br>調查</div><div class="bub">敘明<br>責任</div></div>
+      </div>
+      <div class="ov-col" data-s="3">
+        <div class="hd">② 聘用期間</div>
+        <div class="bd"><div class="ctl"><b>6.3</b>資訊安全認知及教育訓練</div><div class="ctl"><b>6.4</b>獎懲過程</div></div>
+        <div class="bubbles"><div class="bub">認知</div><div class="bub">教育</div><div class="bub">訓練</div><div class="bub">獎懲</div></div>
+      </div>
+      <div class="ov-col" data-s="4">
+        <div class="hd">③ 聘用終止或變更</div>
+        <div class="bd"><div class="ctl"><b>6.5</b>聘用終止或變更後之責任</div></div>
+        <div class="bubbles"><div class="bub">責任<br>義務<br>有效性</div><div class="bub">歸還<br>資產</div><div class="bub">移除<br>權限</div></div>
+      </div>
+    </div>
+    <div class="ndaband left" data-s="5">🔒 6.6 機密性或保密協議 ── 到職簽署 ➜ 在職遵守 ➜ 離職後持續有效</div>
+  </section>
+
+  <!-- s02 6.1 作業重點 -->
+  <section class="scene" data-scene="2">
+    <div class="h1"><span class="code">6.1</span><h2>篩選</h2><span class="en">Screening</span><span class="tag t-ops" style="margin-left:auto">🛠️ ISMS作業重點</span></div>
+    <div class="req" data-s="1"><span class="lbl">條文要求</span>加入組織<b>前</b>及<b>持續</b>期間進行背景查核，考量<b>法規</b>、<b>職務要求</b>、<b>存取資訊之分類等級</b>及<b>風險</b>。</div>
+    <div class="row" style="margin-top:22px">
+      <div class="card ops grow" data-s="2">
+        <h3><span class="num">1</span>依職務風險分級</h3>
+        <div class="tiers">
+          <div class="tier"><div class="bar" style="width:210px;background:#69db7c">一般職務</div>學經歷、證照</div>
+          <div class="tier"><div class="bar" style="width:300px;background:#fab005">敏感職務</div>＋前雇主查證</div>
+          <div class="tier"><div class="bar" style="width:390px;background:#f03e3e">系統管理／財務</div>＋良民證</div>
+        </div>
+      </div>
+      <div class="col" style="width:520px">
+        <div class="card ops" data-s="3"><h3><span class="num">2</span>查核項目明確</h3><p>學經歷・專業證照・前雇主查證・警察刑事紀錄證明（良民證）</p></div>
+        <div class="card ops" data-s="4"><h3><span class="num">3</span>符合個資法 🛡️</h3><p>告知蒐集目的、取得當事人<b class="green">書面同意</b>；最小蒐集、妥善保管</p></div>
+      </div>
+    </div>
+    <div class="req" data-s="5" style="margin-top:20px;border-left-color:var(--amber)">👷 派遣／駐點外包人員：以<b>合約</b>要求供應商落實同等篩選</div>
+  </section>
+
+  <!-- s03 6.1 稽核與缺失 -->
+  <section class="scene" data-scene="3">
+    <div class="h1"><span class="code">6.1</span><h2>篩選｜稽核與缺失</h2></div>
+    <div class="row">
+      <div class="card audit grow" data-s="1">
+        <h3><span class="tag t-audit">🔍 稽核查核重點</span></h3>
+        <ul>
+          <li>名冊抽樣：系統管理者、新進人員<small>調閱背景查核紀錄＋個資同意書</small></li>
+          <li data-s="2" class="left">程序書：職務別 × 查核項目對照<small>外包合約是否含篩選條款</small></li>
+        </ul>
+      </div>
+      <div class="card ng grow" data-s="3">
+        <h3><span class="tag t-ng">⚠️ 常見缺失</span></h3>
+        <ul>
+          <li>寫了分級，實際只收一份履歷</li>
+          <li>外包人員無任何篩選要求</li>
+          <li>查核資料存人資個人電腦<small>未做存取控制、保存期限</small></li>
+        </ul>
+      </div>
+    </div>
+    <div class="card case" data-s="4" style="margin-top:26px">
+      <h3><span class="tag t-case">💡 管理案例</span>漂亮履歷背後的財務主管</h3>
+      <p>某公司聘用財務主管<b>未做前雇主查證</b> → 事後發現前公司有挪用公款紀錄 → 到職半年再度出事。<br><b class="red">一通查證電話的成本 ≪ 事後補救的成本</b></p>
+      <span class="stamp">教訓</span>
+    </div>
+  </section>
+
+  <!-- s04 6.2 -->
+  <section class="scene" data-scene="4">
+    <div class="h1"><span class="code">6.2</span><h2>聘用條款及條件</h2><span class="en">Terms and conditions of employment</span></div>
+    <div class="page" style="top:96px" data-until="4">
+      <div class="req" data-s="1"><span class="lbl">條文要求</span>聘用契約應敘明<b>人員</b>及<b>組織</b>雙方之資訊安全責任。</div>
+      <div class="row" style="margin-top:22px">
+        <div class="card ops grow" data-s="2">
+          <h3><span class="tag t-ops">🛠️ ISMS作業重點</span></h3>
+          <ul>
+            <li>勞動契約／工作規則納入資安條款</li>
+            <li>智慧財產權歸屬</li>
+            <li>違反時的處置方式</li>
+            <li>離職後仍持續有效的責任</li>
+          </ul>
+        </div>
+        <div class="card ops" style="width:470px;text-align:center" data-s="3">
+          <h3 style="justify-content:center">順序很重要！</h3>
+          <div style="font-size:70px;line-height:1.3">📜 ➜ 🔑</div>
+          <p><b>先</b>了解政策＋簽約<br><b>後</b>開通權限</p>
+        </div>
+      </div>
+    </div>
+    <div class="page" style="top:96px">
+      <div class="card audit" data-s="4">
+        <h3><span class="tag t-audit">🔍 稽核查核重點</span>比對三個日期</h3>
+        <div class="timeline">
+          <div class="tl-node"><div class="tl-dot" style="background:var(--blue)">1</div><span>契約／保密<br>簽署日</span></div><div class="tl-arrow"></div>
+          <div class="tl-node"><div class="tl-dot" style="background:var(--blue)">2</div><span>到職日</span></div><div class="tl-arrow"></div>
+          <div class="tl-node"><div class="tl-dot" style="background:var(--blue)">3</div><span>帳號<br>開通日</span></div>
+          <span class="big-ok">✓ 正確</span>
+        </div>
+      </div>
+      <div class="card ng" data-s="5" style="margin-top:22px">
+        <h3><span class="tag t-ng">⚠️ 常見缺失</span></h3>
+        <div class="timeline">
+          <div class="tl-node"><div class="tl-dot" style="background:var(--red)">🔑</div><span>Day 1<br>帳號開通</span></div><div class="tl-arrow"></div>
+          <div class="tl-node"><div class="tl-dot" style="background:#adb5bd">📜</div><span>Day 7<br>才補簽</span></div>
+          <span class="big-ng">✕ 順序顛倒</span>
+        </div>
+        <ul><li>契約範本多年未更新：沒提資安、未涵蓋遠距工作與雲端服務</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- s05 6.3 -->
+  <section class="scene" data-scene="5">
+    <div class="h1"><span class="code">6.3</span><h2>資訊安全認知、教育及訓練</h2></div>
+    <div class="page" style="top:96px" data-until="4">
+      <div class="circles3">
+        <div class="c3 pop" data-s="1"><div class="ball" style="background:radial-gradient(circle at 35% 30%,#74c0fc,#1c7ed6)">認知</div><div data-s="2"><div class="q">Why 為什麼</div><div class="ex">海報・電子報・宣導</div></div></div>
+        <div class="c3 pop" data-s="1" style="transition-delay:.2s"><div class="ball" style="background:radial-gradient(circle at 35% 30%,#8ce99a,#2f9e44)">教育</div><div data-s="2"><div class="q">What 是什麼</div><div class="ex">資安政策課程</div></div></div>
+        <div class="c3 pop" data-s="1" style="transition-delay:.4s"><div class="ball" style="background:radial-gradient(circle at 35% 30%,#ffc078,#e8590c)">訓練</div><div data-s="2"><div class="q">How 怎麼做</div><div class="ex">系管安全設定實作</div></div></div>
+      </div>
+      <div class="card ops" data-s="3" style="margin-top:26px">
+        <h3><span class="tag t-ops">🛠️ ISMS作業重點</span></h3>
+        <div class="row" style="gap:14px;flex-wrap:wrap">
+          <span class="chip hot">🆕 新進到職訓練</span><span class="chip hot">📅 全員年度訓練</span><span class="chip hot">🎯 依職務專業訓練</span><span class="chip hot">🔄 政策／威脅變化即時更新</span>
+        </div>
+      </div>
+    </div>
+    <div class="page" style="top:96px" data-until="6">
+      <div class="row">
+        <div class="card audit" data-s="4" style="width:520px">
+          <h3><span class="tag t-audit">🔍 有效性評估</span></h3>
+          <ul><li>課後測驗成績</li><li>社交工程演練點擊率趨勢</li><li>呼應條文<small>7.2 能力・7.3 認知</small></li></ul>
+        </div>
+        <div class="card case grow" data-s="5">
+          <h3><span class="tag t-case">💡 輔導案例</span>某製造業社交工程演練</h3>
+          <div class="chart" style="margin:20px 0 56px">
+            <div class="barc"><div class="v red">23%</div><div class="fill h23" style="background:linear-gradient(#ff8787,#f03e3e)"></div><div class="lb">第一次演練</div></div>
+            <div style="font-size:60px;align-self:center">➜</div>
+            <div class="barc"><div class="v green">4%</div><div class="fill h4" style="background:linear-gradient(#63e6be,#12b886)"></div><div class="lb">半年後</div></div>
+          </div>
+          <p style="text-align:center"><b>針對性訓練 ＋ 主管帶頭</b></p>
+        </div>
+      </div>
+    </div>
+    <div class="page" style="top:96px">
+      <div class="card ng" data-s="6">
+        <h3><span class="tag t-ng">⚠️ 常見缺失</span></h3>
+        <ul>
+          <li>只有簽到表，沒有教材與測驗</li>
+          <li>高階主管、外包人員未納入</li>
+          <li>訓練計畫年年複製貼上<small>未依風險評鑑結果或資安事件調整</small></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- s06 6.4 -->
+  <section class="scene" data-scene="6">
+    <div class="h1"><span class="code">6.4</span><h2>獎懲過程</h2><span class="en">Disciplinary process</span></div>
+    <div class="page" style="top:96px" data-until="4">
+      <div class="req" data-s="1"><span class="lbl">條文要求</span>應有<b>正式</b>且<b>已傳達</b>之懲處過程，對違反資安政策之人員採取行動。</div>
+      <div class="row" style="margin-top:22px">
+        <div class="card ops grow" data-s="2">
+          <h3><span class="tag t-ops">🛠️ ISMS作業重點</span></h3>
+          <ul><li>分級處理：性質、嚴重度、是否故意</li><li>公平一致</li><li>符合勞基法、工作規則</li><li>對全體員工公告周知</li></ul>
+        </div>
+        <div class="card" data-s="3" style="width:560px;border-color:var(--purple)">
+          <div class="scale" style="margin-top:18px">
+            <div class="beam">
+              <div class="pan" style="left:-40px"><div class="str"></div><div class="dish" style="background:var(--green)">獎</div></div>
+              <div class="pan" style="right:-40px"><div class="str"></div><div class="dish" style="background:var(--red)">懲</div></div>
+            </div>
+            <div class="post"></div><div class="foot"></div>
+          </div>
+          <p style="text-align:center;margin-top:10px"><b>主動通報可疑郵件 → 嘉獎</b></p>
+        </div>
+      </div>
+    </div>
+    <div class="page" style="top:96px">
+      <div class="row">
+        <div class="card audit grow" data-s="4">
+          <h3><span class="tag t-audit">🔍 稽核查核重點</span></h3>
+          <div class="say"><div class="av">稽</div><div class="bb">今年有資安違規事件嗎？</div></div>
+          <div class="say"><div class="av">稽</div><div class="bb">怎麼處理？依獎懲辦法嗎？</div></div>
+          <div class="say"><div class="av">稽</div><div class="bb">紀錄在哪裡？</div></div>
+        </div>
+        <div class="card ng grow" data-s="5">
+          <h3><span class="tag t-ng">⚠️ 常見缺失</span></h3>
+          <ul><li>工作規則懲處條款未提資安</li><li>只口頭告誡，沒有紀錄</li><li>標準不一，主管犯錯不了了之</li></ul>
+        </div>
+      </div>
+      <div class="card case" data-s="6" style="margin-top:22px">
+        <h3><span class="tag t-case">💡 管理案例</span>私人信箱寄出客戶名單</h3>
+        <p>依獎懲辦法<b>記小過</b> ＋ <b>重新訓練</b> ＋ <b>檢討 DLP 設定</b> ➜ 懲處與改善並行，完整 PDCA</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- s07 6.5 -->
+  <section class="scene" data-scene="7">
+    <div class="h1"><span class="code">6.5</span><h2>聘用終止或變更後之責任</h2></div>
+    <div class="page" style="top:96px" data-until="4">
+      <div class="req" data-s="1"><span class="lbl">條文要求</span>定義離職或變更後<b>仍有效</b>之資安責任，並<b>傳達</b>與<b>執行</b>。</div>
+      <div class="three-things" style="margin-top:22px">
+        <div class="thing pop" data-s="2"><div class="ic">🤐</div><h4>保密責任延續</h4><p>離職面談再次提醒</p></div>
+        <div class="thing pop" data-s="2" style="transition-delay:.2s"><div class="ic">💻</div><h4>歸還資產</h4><p>筆電、門禁卡、權杖</p><span class="ref">5.11</span></div>
+        <div class="thing pop" data-s="2" style="transition-delay:.4s"><div class="ic">🚫</div><h4>移除存取權限</h4><p>AD、VPN、雲端、共用帳號</p><span class="ref">5.18</span></div>
+      </div>
+      <div class="card ops" data-s="3" style="margin-top:22px;display:flex;align-items:center;gap:30px">
+        <div style="font-size:28px;font-weight:900;width:330px">調職也算「變更」！<br><span class="red">小心權限潛變</span></div>
+        <div class="creep">
+          <div class="stack"><div class="blk" style="background:#4dabf7">業務系統</div><div class="cap">業務部時期</div></div>
+          <div style="font-size:50px">➜</div>
+          <div class="stack"><div class="blk x" style="background:#4dabf7">業務系統</div><div class="blk" style="background:#9775fa">研發系統</div><div class="cap">調研發部後</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="page" style="top:96px">
+      <div class="card audit" data-s="4">
+        <h3><span class="tag t-audit">🔍 稽核秘技</span>離職名單 × 帳號清單</h3>
+        <table class="mini">
+          <tr><th>人員</th><th>離職日</th><th>AD 停用</th><th>VPN 最後登入</th></tr>
+          <tr><td>陳○華</td><td>06/30</td><td>06/30 ✓</td><td>06/28</td></tr>
+          <tr class="bad"><td>林○明</td><td>06/30</td><td>仍啟用 ✕</td><td>09/12 ✕</td></tr>
+        </table>
+      </div>
+      <div class="row" style="margin-top:22px">
+        <div class="card ng grow" data-s="5">
+          <h3><span class="tag t-ng">⚠️ 常見缺失</span></h3>
+          <ul><li>離職 3 個月帳號仍啟用</li><li>共用帳號密碼未更換</li><li>外包合約結束人資不知情</li></ul>
+        </div>
+        <div class="card case" data-s="6" style="width:560px">
+          <h3><span class="tag t-case">💡 管理案例</span></h3>
+          <p>工程師離職前大量下載原始碼，離職後以<b class="red">未停用 VPN</b> 登入 ➜ 依<b>營業秘密法</b>提告，但損失已造成。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- s08 6.6 -->
+  <section class="scene" data-scene="8">
+    <div class="h1"><span class="code" style="background:var(--red)">6.6</span><h2>機密性或保密協議</h2><span class="en">Confidentiality or NDA</span></div>
+    <div class="page" style="top:96px" data-until="4">
+      <div class="req" data-s="1" style="border-left-color:var(--red)"><span class="lbl">條文要求</span>識別需求、<b>文件化</b>、<b>定期審查</b>，並由人員及其他相關利害關係者<b>簽署</b>。</div>
+      <div class="row" style="margin-top:22px;align-items:flex-start">
+        <div class="doc" data-s="2">
+          <div class="dh">保密協議 NDA</div>
+          <div class="cl"><i>✓</i>保護的資訊範圍</div>
+          <div class="cl"><i>✓</i>協議期間</div>
+          <div class="cl"><i>✓</i>到期歸還／銷毀</div>
+          <div class="cl"><i>✓</i>違反之處置</div>
+          <div class="cl"><i>✓</i>組織之稽核權利</div>
+          <div class="cl"><i>✓</i>智慧財產權歸屬</div>
+          <div class="seal">已簽署</div>
+        </div>
+        <div class="grow" data-s="3" style="padding-left:30px">
+          <h3 style="font-size:32px;font-weight:900;margin-bottom:16px">誰要簽？→ 會接觸機密資訊的都要評估</h3>
+          <div class="cloud">
+            <span class="chip">正職員工</span><span class="chip">實習生</span><span class="chip">顧問</span><span class="chip">駐點廠商</span><span class="chip">維修人員</span><span class="chip">派遣人員</span><span class="chip">稽核員 😎</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="page" style="top:96px">
+      <div class="card audit" data-s="4">
+        <h3><span class="tag t-audit">🔍 稽核查核重點</span></h3>
+        <ul><li>抽樣核對：簽署日 vs. 權限開通日</li><li>範本是否定期審查（版本、日期）</li><li>法務是否確認內容符合法規</li></ul>
+      </div>
+      <div class="card ng" data-s="5" style="margin-top:22px">
+        <h3><span class="tag t-ng">⚠️ 常見缺失</span></h3>
+        <ul><li>範本十年未審查</li><li>實習生、外包人員未簽</li><li>說有簽，但找不到正本</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- s09 三表交叉比對 -->
+  <section class="scene" data-scene="9">
+    <div class="h1"><span class="code" style="background:var(--blue)">秘技</span><h2>稽核員的三表交叉比對</h2></div>
+    <div class="tbls" data-s="1">
+      <div class="tbl" data-s="2"><div class="th" style="background:var(--green)">👥 人資名冊</div><div class="tr k"></div><div class="tr k"></div><div class="tr k"></div><div class="tx">到職・調職・離職日期</div></div>
+      <div class="keyc pop" data-s="3">員工<br>編號</div>
+      <div class="tbl" data-s="2" style="transition-delay:.2s"><div class="th" style="background:var(--blue)">🔐 帳號權限清單</div><div class="tr k"></div><div class="tr k"></div><div class="tr k"></div><div class="tx">AD・ERP・VPN</div></div>
+      <div class="tbl" data-s="2" style="transition-delay:.4s"><div class="th" style="background:var(--purple)">📝 簽署與訓練</div><div class="tr k"></div><div class="tr k"></div><div class="tr k"></div><div class="tx">契約・NDA・訓練紀錄</div></div>
+    </div>
+    <div class="finds">
+      <div class="find" data-s="3">先開權限、後簽約</div>
+      <div class="find" data-s="3" style="transition-delay:.15s">離職未停權</div>
+      <div class="find" data-s="3" style="transition-delay:.3s">調職未調權</div>
+      <div class="find" data-s="3" style="transition-delay:.45s">應訓未訓</div>
+    </div>
+  </section>
+
+  <!-- s10 排行榜 -->
+  <section class="scene" data-scene="10">
+    <div class="h1"><span class="code" style="background:var(--amber)">TOP 5</span><h2>人資安全常見缺失排行榜</h2></div>
+    <div class="rank">
+      <div class="rk r1 pop" data-s="5"><span class="n">1</span>離職／調職權限未即時移除<span class="ctl">6.5・5.18</span></div>
+      <div class="rk r2 left" data-s="4"><span class="n">2</span>保密協議簽署晚於權限開通<span class="ctl">6.2・6.6</span></div>
+      <div class="rk r3 left" data-s="3"><span class="n">3</span>外包、派遣、實習生被遺漏<span class="ctl">6.1・6.6</span></div>
+      <div class="rk left" data-s="2"><span class="n">4</span>教育訓練缺有效性評估<span class="ctl">6.3・7.2</span></div>
+      <div class="rk left" data-s="1"><span class="n">5</span>獎懲辦法未納入資安或未公告<span class="ctl">6.4</span></div>
+    </div>
+    <div class="tip" data-s="6">💡 建議：人資 ↔ IT 建立離職／調職自動通報，與 HR 系統串接</div>
+  </section>
+
+  <!-- s11 小測驗 -->
+  <section class="scene" data-scene="11">
+    <div class="h1"><span class="code" style="background:var(--pink)">QUIZ</span><h2>阿拉蕾隨堂小測驗</h2></div>
+    <div class="qa">
+      <div class="q" data-s="1"><span class="qq">Q1</span>員工週一到職、帳號週一開通、保密協議週五才簽，有問題嗎？</div>
+      <div class="a pop" data-s="2"><span class="aa">A</span><span>有問題！不符 6.2／6.6 精神 ➜ <b>先簽署，再開通權限</b></span></div>
+      <div class="q" data-s="3"><span class="qq">Q2</span>小明從業務部調到研發部，業務系統權限怎麼辦？</div>
+      <div class="a pop" data-s="4"><span class="aa">A</span><span>依 6.5 重新檢視權限，<b>收回不需要的權限</b>並保留審核紀錄</span></div>
+    </div>
+  </section>
+
+  <!-- s12 總結 -->
+  <section class="scene" data-scene="12">
+    <div class="h1"><span class="code">總結</span><h2>人資安全三階段一條線</h2></div>
+    <div class="sum ov-cols" style="height:250px">
+      <div class="ov-col" data-s="1"><div class="hd">聘用前</div><div class="bd">篩選要依風險<br>契約要寫清楚</div></div>
+      <div class="ov-col" data-s="2"><div class="hd">聘用期間</div><div class="bd">訓練要有效<br>獎懲要公平</div></div>
+      <div class="ov-col" data-s="3"><div class="hd">終止或變更</div><div class="bd">責任要延續<br>權限要收回</div></div>
+    </div>
+    <div class="ndaband left" data-s="3">🔒 6.6 保密協議 ── 貫穿全程</div>
+    <div class="motto pop" data-s="4">資安，從<em>「人」</em>開始，也從<em>「人」</em>結束！</div>
+  </section>
+
+  <!-- characters -->
+  <div class="charw arale away" id="arale">
+    <div class="emo star">✨</div><div class="emo bang">！</div><div class="emo qm">？</div><div class="emo sweat">💦</div>
+    <div class="inner">
+    <svg viewBox="0 0 260 410" aria-label="助教阿拉蕾">
+      <ellipse cx="130" cy="400" rx="80" ry="9" fill="rgba(0,0,0,.15)"/>
+      <!-- legs -->
+      <rect x="98" y="330" width="24" height="52" rx="10" fill="#ffe6d5"/><rect x="138" y="330" width="24" height="52" rx="10" fill="#ffe6d5"/>
+      <rect x="96" y="360" width="28" height="22" fill="#fff"/><rect x="136" y="360" width="28" height="22" fill="#fff"/>
+      <ellipse cx="108" cy="388" rx="24" ry="12" fill="#e8343a"/><ellipse cx="152" cy="388" rx="24" ry="12" fill="#e8343a"/>
+      <!-- arms -->
+      <g class="arm arm-l"><path d="M82 262 Q56 290 52 322" stroke="#fff" stroke-width="22" stroke-linecap="round" fill="none"/><circle cx="52" cy="326" r="12" fill="#ffe6d5"/></g>
+      <g class="arm arm-r"><path d="M178 262 Q204 290 208 322" stroke="#fff" stroke-width="22" stroke-linecap="round" fill="none"/><circle cx="208" cy="326" r="12" fill="#ffe6d5"/></g>
+      <!-- body -->
+      <path d="M78 270 Q80 240 130 238 Q180 240 182 270 L188 340 Q130 352 72 340 Z" fill="#fff"/>
+      <path d="M86 284 L174 284 L184 342 Q130 354 76 342 Z" fill="#3b5bdb"/>
+      <rect x="100" y="262" width="12" height="26" fill="#3b5bdb"/><rect x="148" y="262" width="12" height="26" fill="#3b5bdb"/>
+      <circle cx="106" cy="292" r="5" fill="#ffd43b"/><circle cx="154" cy="292" r="5" fill="#ffd43b"/>
+      <rect x="114" y="300" width="32" height="22" rx="5" fill="#2f44b0"/>
+      <!-- head -->
+      <g class="head">
+        <path d="M30 150 Q22 70 130 56 Q238 70 230 150 L238 262 Q210 276 196 250 L64 250 Q50 276 22 262 Z" fill="#5f3d99"/>
+        <ellipse cx="130" cy="160" rx="90" ry="86" fill="#ffe6d5"/>
+        <path d="M42 140 Q44 74 130 70 Q216 74 218 140 L200 140 L196 118 L180 136 L170 112 L152 134 L140 110 L124 134 L110 112 L96 136 L82 114 L70 138 L60 120 Z" fill="#5f3d99"/>
+        <!-- cap -->
+        <path d="M46 100 Q60 20 130 18 Q200 20 214 100 Q130 84 46 100 Z" fill="#e8343a"/>
+        <path d="M40 102 Q130 82 220 102 Q222 112 214 114 Q130 96 46 114 Q38 112 40 102 Z" fill="#c92a2a"/>
+        <path d="M54 66 Q20 40 10 60 Q24 66 16 80 Q34 78 30 92 Q48 84 54 80 Z" fill="#fff" stroke="#adb5bd" stroke-width="2"/>
+        <path d="M206 66 Q240 40 250 60 Q236 66 244 80 Q226 78 230 92 Q212 84 206 80 Z" fill="#fff" stroke="#adb5bd" stroke-width="2"/>
+        <!-- glasses + eyes -->
+        <g class="eyes"><circle cx="96" cy="166" r="8" fill="#222"/><circle cx="164" cy="166" r="8" fill="#222"/><circle cx="99" cy="163" r="3" fill="#fff"/><circle cx="167" cy="163" r="3" fill="#fff"/></g>
+        <circle cx="96" cy="166" r="34" fill="rgba(255,255,255,.25)" stroke="#3b2a1a" stroke-width="7"/>
+        <circle cx="164" cy="166" r="34" fill="rgba(255,255,255,.25)" stroke="#3b2a1a" stroke-width="7"/>
+        <path d="M128 162 Q130 158 132 162" stroke="#3b2a1a" stroke-width="6" fill="none"/>
+        <ellipse cx="70" cy="208" rx="13" ry="8" fill="#ff8fab" opacity=".55"/><ellipse cx="190" cy="208" rx="13" ry="8" fill="#ff8fab" opacity=".55"/>
+        <path class="m-closed" d="M106 214 Q130 236 154 214 Q130 222 106 214 Z" fill="#c2255c"/>
+        <path class="m-open" d="M102 210 Q130 258 158 210 Q130 218 102 210 Z" fill="#a61e4d"/>
+      </g>
+    </svg>
+    </div>
+  </div>
+
+  <div class="charw allan" id="allan">
+    <div class="inner">
+    <svg viewBox="0 0 300 460" aria-label="Q版 Allan Lo 講師">
+      <ellipse cx="150" cy="450" rx="96" ry="10" fill="rgba(0,0,0,.15)"/>
+      <rect x="112" y="378" width="32" height="58" rx="12" fill="#26304f"/><rect x="156" y="378" width="32" height="58" rx="12" fill="#26304f"/>
+      <ellipse cx="124" cy="440" rx="26" ry="12" fill="#1b1b1b"/><ellipse cx="176" cy="440" rx="26" ry="12" fill="#1b1b1b"/>
+      <path d="M84 268 Q58 318 70 362" stroke="#2f4a8a" stroke-width="27" stroke-linecap="round" fill="none"/><circle cx="70" cy="366" r="14" fill="#ffdcbf"/>
+      <path d="M78 300 Q80 250 150 248 Q220 250 222 300 L228 392 Q150 406 72 392 Z" fill="#2f4a8a"/>
+      <path d="M126 250 L150 304 L174 250 Z" fill="#fff"/>
+      <path d="M145 262 L155 262 L160 302 L150 322 L140 302 Z" fill="#e03131"/>
+      <path d="M126 250 L150 304 L118 286 Z" fill="#253b70"/><path d="M174 250 L150 304 L182 286 Z" fill="#253b70"/>
+      <rect x="170" y="316" width="44" height="22" rx="5" fill="#fff"/><text x="192" y="332" font-size="13" font-weight="900" text-anchor="middle" fill="#2f4a8a" font-family="sans-serif">ISMS</text>
+      <g class="arm-r">
+        <path d="M214 270 Q250 250 262 210" stroke="#2f4a8a" stroke-width="27" stroke-linecap="round" fill="none"/>
+        <circle cx="263" cy="205" r="14" fill="#ffdcbf"/>
+        <line x1="263" y1="205" x2="296" y2="116" stroke="#8d5524" stroke-width="6" stroke-linecap="round"/>
+        <circle cx="296" cy="116" r="8" fill="#ffd43b"/>
+      </g>
+      <g class="head">
+        <ellipse cx="150" cy="132" rx="110" ry="102" fill="#1f1f24"/>
+        <circle cx="46" cy="152" r="18" fill="#ffdcbf"/><circle cx="254" cy="152" r="18" fill="#ffdcbf"/>
+        <ellipse cx="150" cy="148" rx="100" ry="96" fill="#ffe3c9"/>
+        <path d="M50 128 Q44 36 150 30 Q258 34 252 128 Q240 84 204 76 Q176 100 124 84 Q82 80 50 128 Z" fill="#1f1f24"/>
+        <path d="M88 116 Q106 104 126 114" stroke="#1f1f24" stroke-width="7" stroke-linecap="round" fill="none"/>
+        <path d="M174 114 Q194 104 212 116" stroke="#1f1f24" stroke-width="7" stroke-linecap="round" fill="none"/>
+        <g class="eyes"><ellipse cx="108" cy="152" rx="9" ry="12" fill="#222"/><ellipse cx="192" cy="152" rx="9" ry="12" fill="#222"/><circle cx="111" cy="147" r="3.4" fill="#fff"/><circle cx="195" cy="147" r="3.4" fill="#fff"/></g>
+        <rect x="76" y="128" width="64" height="46" rx="15" fill="rgba(255,255,255,.18)" stroke="#2b2b2b" stroke-width="5"/>
+        <rect x="160" y="128" width="64" height="46" rx="15" fill="rgba(255,255,255,.18)" stroke="#2b2b2b" stroke-width="5"/>
+        <path d="M140 146 Q150 140 160 146" stroke="#2b2b2b" stroke-width="5" fill="none"/>
+        <ellipse cx="90" cy="194" rx="14" ry="8" fill="#ff8fab" opacity=".45"/><ellipse cx="210" cy="194" rx="14" ry="8" fill="#ff8fab" opacity=".45"/>
+        <path class="m-closed" d="M128 200 Q150 220 172 200" stroke="#7a2e1d" stroke-width="6" stroke-linecap="round" fill="none"/>
+        <g class="m-open"><path d="M126 196 Q150 242 174 196 Z" fill="#7a2e1d"/><path d="M137 218 Q150 230 163 218 Q150 211 137 218 Z" fill="#ff8787"/></g>
+      </g>
+    </svg>
+    </div>
+  </div>
+
+  <div class="subs hide" id="subs"><span class="who" id="who"></span><div class="txt" id="txt"></div></div>
+</div>
+</div>
+
+<div id="ui">
+  <div id="bar"><div id="fill"></div></div>
+  <div class="ctrls">
+    <button id="play" aria-label="播放/暫停">▶ 播放</button>
+    <button id="prev" aria-label="上一段">⏮</button>
+    <button id="next" aria-label="下一段">⏭</button>
+    <span id="time">00:00 / 00:00</span>
+    <span class="sp"></span>
+    <select id="chap" aria-label="章節"></select>
+    <select id="rate" aria-label="播放速度"><option value="0.8">0.8×</option><option value="1" selected>1×</option><option value="1.2">1.2×</option><option value="1.5">1.5×</option></select>
+    <button id="cc" aria-label="字幕">字幕 開</button>
+    <button id="fs" aria-label="全螢幕">⛶</button>
+  </div>
+</div>
+<div id="start">
+  <h1>🎓 人資安全｜ISO 27001:2022 A.6</h1>
+  <p>Q版 Allan Lo 講師 × 助教阿拉蕾｜ISMS作業重點・稽核查核重點・常見缺失</p>
+  <button id="go">▶ 開始上課</button>
+  <p>空白鍵 播放/暫停　← → 切換段落</p>
+</div>
+<audio id="aud" src="audio/narration.mp3" preload="auto"></audio>
+
+<script src="js/timeline.js"></script>
+<script>
+(() => {
+  const TL = window.TIMELINE, L = TL.lines, S = TL.scenes;
+  const RECORD = /[?&]record=1/.test(location.search);
+  if (RECORD) document.body.classList.add('record');
+  const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+  const stage = $('#stage'), scenes = $$('.scene'), aud = $('#aud');
+  const chars = { allan: $('#allan'), arale: $('#arale') };
+  const names = { allan: 'Allan Lo 講師', arale: '助教 阿拉蕾' };
+  const araleFirst = L.find(l => l.who === 'arale').start;
+
+  function fit() {
+    const s = Math.min(innerWidth / 1920, innerHeight / 1080);
+    stage.style.transform = `scale(${s})`;
+    stage.style.left = (innerWidth - 1920 * s) / 2 + 'px';
+    stage.style.top = (innerHeight - 1080 * s) / 2 + 'px';
+  }
+  addEventListener('resize', fit); fit();
+
+  const sceneAt = t => { let i = 0; while (i + 1 < S.length && S[i + 1].start <= t) i++; return i; };
+  const lineAt = t => { let lo = -1, hi = L.length - 1; while (lo < hi) { const m = (lo + hi + 1) >> 1; if (L[m].start <= t) lo = m; else hi = m - 1; } return lo; };
+
+  let prev = {};
+  function render(t) {
+    const sc = sceneAt(t), li = lineAt(t);
+    const ln = li >= 0 && L[li].scene === sc ? L[li] : null;
+    let step = 0;
+    for (let i = li; i >= 0 && L[i].scene === sc; i--) if (L[i].step) step = Math.max(step, L[i].step);
+    const speaking = ln && t < ln.end ? ln.who : null;
+    const emote = ln && ln.who === 'arale' && t < ln.end + 0.4 ? ln.emote : null;
+
+    if (prev.sc !== sc) {
+      scenes.forEach((el, i) => { el.classList.toggle('active', i === sc); el.classList.toggle('past', i < sc); });
+      const ph = S[sc].phase;
+      $$('.ph').forEach(p => { const n = +p.dataset.ph; p.classList.toggle('on', n === ph); p.classList.toggle('done', ph > 0 && ph < 4 && n < ph); });
+      $('.nda-pill').classList.toggle('on', ph === 4 || (sc === 1));
+    }
+    if (prev.sc !== sc || prev.step !== step) {
+      const el = scenes[sc];
+      el.querySelectorAll('[data-s]').forEach(e => e.classList.toggle('on', step >= +e.dataset.s));
+      el.querySelectorAll('[data-until]').forEach(e => e.classList.toggle('gone', step >= +e.dataset.until));
+      // reset other scenes so revisiting replays the build
+      scenes.forEach((o, i) => { if (i !== sc && Math.abs(i - sc) > 1) o.querySelectorAll('.on,.gone').forEach(e => e.classList.remove('on', 'gone')); });
+    }
+    if (prev.speaking !== speaking) {
+      for (const k in chars) chars[k].classList.toggle('speaking', speaking === k);
+    }
+    const emoKey = emote ? emote + ':' + li : null;
+    if (prev.emoKey !== emoKey) {
+      const a = chars.arale;
+      ['jump', 'wow', 'think', 'shock'].forEach(e => a.classList.remove('emo-' + e));
+      if (emote) { void a.offsetWidth; a.classList.add('emo-' + emote); }
+      a.querySelector('.star').classList.toggle('show', emote === 'jump');
+      a.querySelector('.bang').classList.toggle('show', emote === 'wow');
+      a.querySelector('.qm').classList.toggle('show', emote === 'think');
+      a.querySelector('.sweat').classList.toggle('show', emote === 'shock');
+    }
+    const here = t >= araleFirst - 0.9;
+    if (prev.here !== here) { chars.arale.classList.add('arrive'); chars.arale.classList.toggle('away', !here); }
+
+    const subKey = ln ? li : -1;
+    if (prev.subKey !== subKey) {
+      const subs = $('#subs');
+      if (ln) { subs.className = 'subs ' + ln.who; $('#who').textContent = names[ln.who]; $('#txt').textContent = ln.text; }
+      else subs.className = 'subs hide';
+    }
+    prev = { sc, step, speaking, emoKey, here, subKey };
+  }
+
+  // ---------- record mode: deterministic frame stepping ----------
+  if (RECORD) {
+    window.__renderAt = t => {
+      render(t);
+      for (const a of document.getAnimations()) {
+        if (a.__t0 === undefined) { a.__t0 = t; a.pause(); }
+        const d = (t - a.__t0) * 1000;
+        a.currentTime = d;
+      }
+    };
+    window.__duration = TL.duration;
+    window.__ready = document.fonts.ready.then(() => true);
+    render(0);
+    return;
+  }
+
+  // ---------- interactive player ----------
+  const fmt = s => `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+  const chap = $('#chap');
+  S.forEach((s, i) => { const o = document.createElement('option'); o.value = i; o.textContent = `${String(i).padStart(2, '0')}｜${s.label}`; chap.appendChild(o);
+    const m = document.createElement('div'); m.className = 'mk'; m.style.left = (s.start / TL.duration * 100) + '%'; $('#bar').appendChild(m); });
+  const dur = () => (isFinite(aud.duration) && aud.duration) || TL.duration;
+  const seek = t => { aud.currentTime = Math.max(0, Math.min(dur() - 0.05, t)); tick(); };
+  const goScene = i => seek(S[Math.max(0, Math.min(S.length - 1, i))].start);
+  function setPlayLabel() { $('#play').textContent = aud.paused ? '▶ 播放' : '⏸ 暫停'; }
+  function tick() {
+    const t = aud.currentTime;
+    render(t);
+    $('#fill').style.width = (t / dur() * 100) + '%';
+    $('#time').textContent = `${fmt(t)} / ${fmt(dur())}`;
+    const sc = sceneAt(t); if (+chap.value !== sc) chap.value = sc;
+  }
+  (function loop() { tick(); requestAnimationFrame(loop); })();
+  $('#go').onclick = () => { $('#start').remove(); aud.play(); };
+  $('#play').onclick = () => { aud.paused ? aud.play() : aud.pause(); };
+  aud.addEventListener('play', setPlayLabel); aud.addEventListener('pause', setPlayLabel);
+  $('#prev').onclick = () => { const t = aud.currentTime, i = sceneAt(t); goScene(t - S[i].start > 2 ? i : i - 1); };
+  $('#next').onclick = () => goScene(sceneAt(aud.currentTime) + 1);
+  chap.onchange = () => goScene(+chap.value);
+  $('#rate').onchange = e => { aud.playbackRate = +e.target.value; };
+  $('#cc').onclick = e => { document.body.classList.toggle('nosubs'); e.target.textContent = document.body.classList.contains('nosubs') ? '字幕 關' : '字幕 開'; };
+  $('#fs').onclick = () => { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.(); };
+  $('#bar').onclick = e => { const r = e.currentTarget.getBoundingClientRect(); seek((e.clientX - r.left) / r.width * dur()); };
+  addEventListener('keydown', e => {
+    if (e.target.tagName === 'SELECT') return;
+    if (e.code === 'Space') { e.preventDefault(); $('#start')?.remove(); aud.paused ? aud.play() : aud.pause(); }
+    if (e.code === 'ArrowRight') $('#next').click();
+    if (e.code === 'ArrowLeft') $('#prev').click();
+  });
+  let idleT; const wake = () => { document.body.classList.remove('idle'); clearTimeout(idleT); idleT = setTimeout(() => !aud.paused && document.body.classList.add('idle'), 2600); };
+  addEventListener('mousemove', wake); addEventListener('touchstart', wake); wake();
+})();
+</script>
+</body>
+</html>
