@@ -48,7 +48,7 @@ async function segment(browser, i, f0, f1, file) {
   const warm = Math.max(0, f0 - 3 * FPS);
   for (let f = warm; f < f0; f++) await page.evaluate(t => window.__renderAt(t), f / FPS);
   const ff = spawn('ffmpeg', ['-v', 'error', '-y', '-f', 'image2pipe', '-framerate', String(FPS), '-c:v', 'mjpeg', '-i', '-',
-    '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '21', '-pix_fmt', 'yuv420p', '-r', String(FPS), file], { stdio: ['pipe', 'inherit', 'inherit'] });
+    '-c:v', 'libx264', '-preset', 'medium', '-tune', 'animation', '-crf', '26', '-pix_fmt', 'yuv420p', '-r', String(FPS), file], { stdio: ['pipe', 'inherit', 'inherit'] });
   const t0 = Date.now();
   for (let f = f0; f < f1; f++) {
     await page.evaluate(t => window.__renderAt(t), f / FPS);
