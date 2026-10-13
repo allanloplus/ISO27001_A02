@@ -217,43 +217,35 @@ table.mini tr.bad{animation:blink 1.2s ease-in-out infinite}
 
 /* ---------- characters ---------- */
 .charw{position:absolute;z-index:6;transition:transform .4s,filter .4s,opacity .5s}
-.charw svg{width:100%;height:auto;display:block;overflow:visible}
-.charw.allan{left:1600px;top:400px;width:310px}
-.charw.arale{left:1372px;top:500px;width:250px}
-.charw.speaking{filter:drop-shadow(0 0 22px rgba(255,214,10,.75))}
+.charw.allan{left:1372px;top:300px;width:288px}
+.charw.arale{left:1684px;top:462px;width:206px}
+.charw .body{position:relative;transform-origin:50% 100%}
+.charw .spr{width:100%;height:auto;display:block;user-select:none}
+.charw .mouth{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible}
+.charw.speaking{filter:drop-shadow(0 0 18px rgba(255,214,10,.8))}
 .charw .inner{animation:breathe 3.2s ease-in-out infinite;transform-origin:50% 100%}
-@keyframes breathe{0%,100%{transform:translateY(0) scaleY(1)}50%{transform:translateY(-5px) scaleY(1.01)}}
-.eyes{animation:blinkEye 4.6s infinite;transform-box:fill-box;transform-origin:center}
-@keyframes blinkEye{0%,93%,100%{transform:scaleY(1)}95.5%{transform:scaleY(.1)}}
-.m-open{opacity:0}
-.speaking .m-open{animation:talk .26s steps(1) infinite}
-.speaking .m-closed{animation:talk2 .26s steps(1) infinite}
-@keyframes talk{0%{opacity:1}50%{opacity:0}}
-@keyframes talk2{0%{opacity:0}50%{opacity:1}}
-.speaking .head{animation:nod .9s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 90%}
-@keyframes nod{0%,100%{transform:rotate(0)}30%{transform:rotate(-2.5deg)}70%{transform:rotate(2deg)}}
-.allan .arm-r{transform-box:fill-box;transform-origin:0% 100%}
-.allan.speaking .arm-r{animation:point 1.8s ease-in-out infinite}
-@keyframes point{0%,100%{transform:rotate(0)}50%{transform:rotate(-12deg)}}
-
-.arale .arm{transform-box:fill-box;transition:transform .4s}
-.arale .arm-l{transform-origin:100% 0%}.arale .arm-r{transform-origin:0% 0%}
-.arale.emo-jump .inner{animation:hop .55s ease-in-out 3}
-@keyframes hop{0%,100%{transform:translateY(0)}45%{transform:translateY(-58px) rotate(-4deg)}}
-.arale.emo-jump .arm-l{transform:rotate(62deg)}
-.arale.emo-jump .arm-r{transform:rotate(-62deg)}
-.arale.emo-shock .inner{animation:shake .12s linear 10}
+@keyframes breathe{0%,100%{transform:translateY(0) scaleY(1)}50%{transform:translateY(-5px) scaleY(1.008)}}
+.m-open,.m-half{opacity:0}
+.speaking .m-open{animation:mo .44s steps(1) infinite}
+.speaking .m-half{animation:mh .44s steps(1) infinite}
+@keyframes mo{0%{opacity:1}25%{opacity:0}100%{opacity:0}}
+@keyframes mh{0%{opacity:0}50%{opacity:1}75%{opacity:0}100%{opacity:0}}
+.speaking .body{animation:nod 1.1s ease-in-out infinite}
+@keyframes nod{0%,100%{transform:rotate(0)}30%{transform:rotate(-1.4deg)}70%{transform:rotate(1.2deg)}}
+.emo-jump .inner,.emo-laugh .inner{animation:hop .55s ease-in-out 3}
+@keyframes hop{0%,100%{transform:translateY(0)}45%{transform:translateY(-46px) rotate(-3deg)}}
+.emo-shock .inner{animation:shake .12s linear 10}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
-.arale.emo-think .head{transform:rotate(-9deg);transition:transform .4s}
-.arale.emo-wow .inner{animation:wow .5s cubic-bezier(.34,1.56,.64,1) 1}
-@keyframes wow{0%{transform:scale(.85)}100%{transform:scale(1)}}
-.emo{position:absolute;opacity:0;transform:scale(.3);transition:all .35s cubic-bezier(.34,1.56,.64,1);font-weight:900;pointer-events:none}
-.emo.show{opacity:1;transform:scale(1)}
-.emo.bang{left:196px;top:-14px;font-size:84px;color:var(--red);text-shadow:0 4px 0 #fff}
-.emo.qm{left:200px;top:-10px;font-size:84px;color:var(--blue);text-shadow:0 4px 0 #fff}
-.emo.sweat{left:206px;top:40px;font-size:56px}
-.emo.star{left:-10px;top:-6px;font-size:58px}
-.arale.away{transform:translateX(-520px) rotate(-14deg);opacity:0}
+.emo-think .inner{transform:rotate(-4deg);transition:transform .4s}
+.emo-wow .inner{animation:wow .5s cubic-bezier(.34,1.56,.64,1) 1}
+@keyframes wow{0%{transform:scale(.88)}100%{transform:scale(1)}}
+.sticker{position:absolute;z-index:2;border-radius:50%;overflow:hidden;background:#fff;opacity:0;transform:scale(.2) rotate(-20deg);
+  transition:opacity .3s,transform .45s cubic-bezier(.34,1.56,.64,1);box-shadow:0 10px 24px rgba(0,0,0,.22)}
+.sticker img{width:100%;height:100%;object-fit:cover;display:block}
+.sticker.show{opacity:1;transform:none}
+.allan .sticker{left:190px;top:-118px;width:156px;height:156px;border:7px solid #2f4a8a}
+.arale .sticker{left:46px;top:-160px;width:142px;height:142px;border:7px solid #1aa6a6}
+.arale.away{transform:translateX(480px) rotate(10deg);opacity:0}
 .arale.arrive{transition:transform .8s cubic-bezier(.2,1.3,.4,1),opacity .4s}
 
 /* ---------- subtitles ---------- */
@@ -651,83 +643,27 @@ body.record #ui,body.record #start{display:none}
     <div class="motto pop" data-s="4">資安，從<em>「人」</em>開始，也從<em>「人」</em>結束！</div>
   </section>
 
-  <!-- characters -->
-  <div class="charw arale away" id="arale">
-    <div class="emo star">✨</div><div class="emo bang">！</div><div class="emo qm">？</div><div class="emo sweat">💦</div>
-    <div class="inner">
-    <svg viewBox="0 0 260 410" aria-label="助教阿拉蕾">
-      <ellipse cx="130" cy="400" rx="80" ry="9" fill="rgba(0,0,0,.15)"/>
-      <!-- legs -->
-      <rect x="98" y="330" width="24" height="52" rx="10" fill="#ffe6d5"/><rect x="138" y="330" width="24" height="52" rx="10" fill="#ffe6d5"/>
-      <rect x="96" y="360" width="28" height="22" fill="#fff"/><rect x="136" y="360" width="28" height="22" fill="#fff"/>
-      <ellipse cx="108" cy="388" rx="24" ry="12" fill="#e8343a"/><ellipse cx="152" cy="388" rx="24" ry="12" fill="#e8343a"/>
-      <!-- arms -->
-      <g class="arm arm-l"><path d="M82 262 Q56 290 52 322" stroke="#fff" stroke-width="22" stroke-linecap="round" fill="none"/><circle cx="52" cy="326" r="12" fill="#ffe6d5"/></g>
-      <g class="arm arm-r"><path d="M178 262 Q204 290 208 322" stroke="#fff" stroke-width="22" stroke-linecap="round" fill="none"/><circle cx="208" cy="326" r="12" fill="#ffe6d5"/></g>
-      <!-- body -->
-      <path d="M78 270 Q80 240 130 238 Q180 240 182 270 L188 340 Q130 352 72 340 Z" fill="#fff"/>
-      <path d="M86 284 L174 284 L184 342 Q130 354 76 342 Z" fill="#3b5bdb"/>
-      <rect x="100" y="262" width="12" height="26" fill="#3b5bdb"/><rect x="148" y="262" width="12" height="26" fill="#3b5bdb"/>
-      <circle cx="106" cy="292" r="5" fill="#ffd43b"/><circle cx="154" cy="292" r="5" fill="#ffd43b"/>
-      <rect x="114" y="300" width="32" height="22" rx="5" fill="#2f44b0"/>
-      <!-- head -->
-      <g class="head">
-        <path d="M30 150 Q22 70 130 56 Q238 70 230 150 L238 262 Q210 276 196 250 L64 250 Q50 276 22 262 Z" fill="#5f3d99"/>
-        <ellipse cx="130" cy="160" rx="90" ry="86" fill="#ffe6d5"/>
-        <path d="M42 140 Q44 74 130 70 Q216 74 218 140 L200 140 L196 118 L180 136 L170 112 L152 134 L140 110 L124 134 L110 112 L96 136 L82 114 L70 138 L60 120 Z" fill="#5f3d99"/>
-        <!-- cap -->
-        <path d="M46 100 Q60 20 130 18 Q200 20 214 100 Q130 84 46 100 Z" fill="#e8343a"/>
-        <path d="M40 102 Q130 82 220 102 Q222 112 214 114 Q130 96 46 114 Q38 112 40 102 Z" fill="#c92a2a"/>
-        <path d="M54 66 Q20 40 10 60 Q24 66 16 80 Q34 78 30 92 Q48 84 54 80 Z" fill="#fff" stroke="#adb5bd" stroke-width="2"/>
-        <path d="M206 66 Q240 40 250 60 Q236 66 244 80 Q226 78 230 92 Q212 84 206 80 Z" fill="#fff" stroke="#adb5bd" stroke-width="2"/>
-        <!-- glasses + eyes -->
-        <g class="eyes"><circle cx="96" cy="166" r="8" fill="#222"/><circle cx="164" cy="166" r="8" fill="#222"/><circle cx="99" cy="163" r="3" fill="#fff"/><circle cx="167" cy="163" r="3" fill="#fff"/></g>
-        <circle cx="96" cy="166" r="34" fill="rgba(255,255,255,.25)" stroke="#3b2a1a" stroke-width="7"/>
-        <circle cx="164" cy="166" r="34" fill="rgba(255,255,255,.25)" stroke="#3b2a1a" stroke-width="7"/>
-        <path d="M128 162 Q130 158 132 162" stroke="#3b2a1a" stroke-width="6" fill="none"/>
-        <ellipse cx="70" cy="208" rx="13" ry="8" fill="#ff8fab" opacity=".55"/><ellipse cx="190" cy="208" rx="13" ry="8" fill="#ff8fab" opacity=".55"/>
-        <path class="m-closed" d="M106 214 Q130 236 154 214 Q130 222 106 214 Z" fill="#c2255c"/>
-        <path class="m-open" d="M102 210 Q130 258 158 210 Q130 218 102 210 Z" fill="#a61e4d"/>
-      </g>
-    </svg>
-    </div>
+  <!-- characters (sprites from assets/chars, mouth overlay in sprite pixel space) -->
+  <div class="charw allan" id="allan">
+    <div class="sticker"><img alt=""></div>
+    <div class="inner"><div class="body">
+      <img class="spr" src="assets/chars/allan.png" alt="Q版 Allan Lo 講師">
+      <svg class="mouth" viewBox="0 0 681 1376" aria-hidden="true">
+        <g class="m-open"><path d="M220 286 Q265 297 310 286 Q302 326 265 328 Q228 326 220 286 Z" fill="#5c1414" stroke="#1b1b1b" stroke-width="4"/><path d="M228 290 Q265 300 302 290 L299 298 Q265 307 231 298 Z" fill="#fff"/><ellipse cx="265" cy="316" rx="21" ry="7" fill="#ff8a8a"/></g>
+        <g class="m-half"><path d="M226 287 Q265 297 304 287 Q295 310 265 312 Q235 310 226 287 Z" fill="#5c1414" stroke="#1b1b1b" stroke-width="4"/><ellipse cx="265" cy="304" rx="15" ry="4.5" fill="#ff8a8a"/></g>
+      </svg>
+    </div></div>
   </div>
 
-  <div class="charw allan" id="allan">
-    <div class="inner">
-    <svg viewBox="0 0 300 460" aria-label="Q版 Allan Lo 講師">
-      <ellipse cx="150" cy="450" rx="96" ry="10" fill="rgba(0,0,0,.15)"/>
-      <rect x="112" y="378" width="32" height="58" rx="12" fill="#26304f"/><rect x="156" y="378" width="32" height="58" rx="12" fill="#26304f"/>
-      <ellipse cx="124" cy="440" rx="26" ry="12" fill="#1b1b1b"/><ellipse cx="176" cy="440" rx="26" ry="12" fill="#1b1b1b"/>
-      <path d="M84 268 Q58 318 70 362" stroke="#2f4a8a" stroke-width="27" stroke-linecap="round" fill="none"/><circle cx="70" cy="366" r="14" fill="#ffdcbf"/>
-      <path d="M78 300 Q80 250 150 248 Q220 250 222 300 L228 392 Q150 406 72 392 Z" fill="#2f4a8a"/>
-      <path d="M126 250 L150 304 L174 250 Z" fill="#fff"/>
-      <path d="M145 262 L155 262 L160 302 L150 322 L140 302 Z" fill="#e03131"/>
-      <path d="M126 250 L150 304 L118 286 Z" fill="#253b70"/><path d="M174 250 L150 304 L182 286 Z" fill="#253b70"/>
-      <rect x="170" y="316" width="44" height="22" rx="5" fill="#fff"/><text x="192" y="332" font-size="13" font-weight="900" text-anchor="middle" fill="#2f4a8a" font-family="sans-serif">ISMS</text>
-      <g class="arm-r">
-        <path d="M214 270 Q250 250 262 210" stroke="#2f4a8a" stroke-width="27" stroke-linecap="round" fill="none"/>
-        <circle cx="263" cy="205" r="14" fill="#ffdcbf"/>
-        <line x1="263" y1="205" x2="296" y2="116" stroke="#8d5524" stroke-width="6" stroke-linecap="round"/>
-        <circle cx="296" cy="116" r="8" fill="#ffd43b"/>
-      </g>
-      <g class="head">
-        <ellipse cx="150" cy="132" rx="110" ry="102" fill="#1f1f24"/>
-        <circle cx="46" cy="152" r="18" fill="#ffdcbf"/><circle cx="254" cy="152" r="18" fill="#ffdcbf"/>
-        <ellipse cx="150" cy="148" rx="100" ry="96" fill="#ffe3c9"/>
-        <path d="M50 128 Q44 36 150 30 Q258 34 252 128 Q240 84 204 76 Q176 100 124 84 Q82 80 50 128 Z" fill="#1f1f24"/>
-        <path d="M88 116 Q106 104 126 114" stroke="#1f1f24" stroke-width="7" stroke-linecap="round" fill="none"/>
-        <path d="M174 114 Q194 104 212 116" stroke="#1f1f24" stroke-width="7" stroke-linecap="round" fill="none"/>
-        <g class="eyes"><ellipse cx="108" cy="152" rx="9" ry="12" fill="#222"/><ellipse cx="192" cy="152" rx="9" ry="12" fill="#222"/><circle cx="111" cy="147" r="3.4" fill="#fff"/><circle cx="195" cy="147" r="3.4" fill="#fff"/></g>
-        <rect x="76" y="128" width="64" height="46" rx="15" fill="rgba(255,255,255,.18)" stroke="#2b2b2b" stroke-width="5"/>
-        <rect x="160" y="128" width="64" height="46" rx="15" fill="rgba(255,255,255,.18)" stroke="#2b2b2b" stroke-width="5"/>
-        <path d="M140 146 Q150 140 160 146" stroke="#2b2b2b" stroke-width="5" fill="none"/>
-        <ellipse cx="90" cy="194" rx="14" ry="8" fill="#ff8fab" opacity=".45"/><ellipse cx="210" cy="194" rx="14" ry="8" fill="#ff8fab" opacity=".45"/>
-        <path class="m-closed" d="M128 200 Q150 220 172 200" stroke="#7a2e1d" stroke-width="6" stroke-linecap="round" fill="none"/>
-        <g class="m-open"><path d="M126 196 Q150 242 174 196 Z" fill="#7a2e1d"/><path d="M137 218 Q150 230 163 218 Q150 211 137 218 Z" fill="#ff8787"/></g>
-      </g>
-    </svg>
-    </div>
+  <div class="charw arale away" id="arale">
+    <div class="sticker"><img alt=""></div>
+    <div class="inner"><div class="body">
+      <img class="spr" src="assets/chars/arale.png" alt="助教 阿拉蕾">
+      <svg class="mouth" viewBox="0 0 326 666" aria-hidden="true">
+        <g class="m-open"><path d="M151 165 Q175 172 199 165 Q195 198 175 199 Q155 198 151 165 Z" fill="#7a1f2b" stroke="#1b1b1b" stroke-width="3"/><path d="M156 168 Q175 174 194 168 L193 173 Q175 179 157 173 Z" fill="#fff"/><ellipse cx="175" cy="191" rx="12" ry="5" fill="#ff8a95"/></g>
+        <g class="m-half"><path d="M153 165 Q175 171 197 165 Q192 189 175 190 Q158 189 153 165 Z" fill="#7a1f2b" stroke="#1b1b1b" stroke-width="3"/><path d="M157 168 Q175 173 193 168 L192 172 Q175 177 158 172 Z" fill="#fff"/><ellipse cx="175" cy="184" rx="10" ry="4" fill="#ff8a95"/></g>
+      </svg>
+    </div></div>
   </div>
 
   <div class="subs hide" id="subs"><span class="who" id="who"></span><div class="txt" id="txt"></div></div>
@@ -767,6 +703,8 @@ body.record #ui,body.record #start{display:none}
   const chars = { allan: $('#allan'), arale: $('#arale') };
   const names = { allan: 'Allan Lo 講師', arale: '助教 阿拉蕾' };
   const araleFirst = L.find(l => l.who === 'arale').start;
+  // 預載表情貼圖，避免第一次出現時閃白
+  [...new Set(L.filter(l => l.face).map(l => `assets/chars/${l.who}_${l.face}.jpg`))].forEach(f => { new Image().src = f; });
 
   function fit() {
     const s = Math.min(innerWidth / 1920, innerHeight / 1080);
@@ -786,7 +724,8 @@ body.record #ui,body.record #start{display:none}
     let step = 0;
     for (let i = li; i >= 0 && L[i].scene === sc; i--) if (L[i].step) step = Math.max(step, L[i].step);
     const speaking = ln && t < ln.end ? ln.who : null;
-    const emote = ln && ln.who === 'arale' && t < ln.end + 0.4 ? ln.emote : null;
+    const emote = ln && t < ln.end + 0.4 ? (ln.emote || (ln.face === 'laugh' && ln.who === 'allan' ? 'laugh' : null)) : null;
+    const face = ln && ln.face && t < ln.end + 0.3 ? ln.face : null;
 
     if (prev.sc !== sc) {
       scenes.forEach((el, i) => { el.classList.toggle('active', i === sc); el.classList.toggle('past', i < sc); });
@@ -804,15 +743,16 @@ body.record #ui,body.record #start{display:none}
     if (prev.speaking !== speaking) {
       for (const k in chars) chars[k].classList.toggle('speaking', speaking === k);
     }
-    const emoKey = emote ? emote + ':' + li : null;
+    const emoKey = ln ? [ln.who, emote, face, li].join(':') : null;
     if (prev.emoKey !== emoKey) {
-      const a = chars.arale;
-      ['jump', 'wow', 'think', 'shock'].forEach(e => a.classList.remove('emo-' + e));
-      if (emote) { void a.offsetWidth; a.classList.add('emo-' + emote); }
-      a.querySelector('.star').classList.toggle('show', emote === 'jump');
-      a.querySelector('.bang').classList.toggle('show', emote === 'wow');
-      a.querySelector('.qm').classList.toggle('show', emote === 'think');
-      a.querySelector('.sweat').classList.toggle('show', emote === 'shock');
+      for (const k in chars) {
+        const c = chars[k], mine = ln && ln.who === k;
+        ['jump', 'wow', 'think', 'shock', 'laugh'].forEach(e => c.classList.remove('emo-' + e));
+        if (mine && emote) { void c.offsetWidth; c.classList.add('emo-' + emote); }
+        const st = c.querySelector('.sticker');
+        if (mine && face) { st.querySelector('img').src = `assets/chars/${k}_${face}.jpg`; st.classList.add('show'); }
+        else st.classList.remove('show');
+      }
     }
     const here = t >= araleFirst - 0.9;
     if (prev.here !== here) { chars.arale.classList.add('arrive'); chars.arale.classList.toggle('away', !here); }
@@ -837,7 +777,9 @@ body.record #ui,body.record #start{display:none}
       }
     };
     window.__duration = TL.duration;
-    window.__ready = document.fonts.ready.then(() => true);
+    const faces = [...new Set(L.filter(l => l.face).map(l => `assets/chars/${l.who}_${l.face}.jpg`))];
+    window.__ready = Promise.all([document.fonts.ready, ...$$('.spr').map(i => i.decode()),
+      ...faces.map(f => { const i = new Image(); i.src = f; return i.decode(); })]).then(() => true);
     render(0);
     return;
   }

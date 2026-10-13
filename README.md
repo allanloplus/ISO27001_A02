@@ -8,7 +8,8 @@
 - 🔍 **稽核查核重點**
 - ⚠️ **常見的缺失**（含管理實務案例）
 
-由 **Q 版 Allan Lo 講師**（台灣男聲）主講，**助教阿拉蕾**串場，全長約 13 分鐘。
+由 **Q 版 Allan Lo 講師**（台灣男聲）主講，**AI 小助手阿拉蕾**串場，全長約 13 分鐘。
+角色依角色設定圖製作：說話時嘴型開合、發光，每句台詞搭配表情貼圖（大笑、思考、提醒、眨眼、擔心…）。
 
 ## 成品
 
@@ -40,7 +41,10 @@
 
 ## 修改內容後重新產生
 
-1. 編輯台詞：`content/script.json`（`step` 控制畫面元素出現時機，`emote` 控制阿拉蕾表情：`jump`／`wow`／`think`／`shock`）
+1. 編輯台詞：`content/script.json`
+   - `step`：畫面元素出現時機
+   - `emote`：肢體動作 `jump`／`wow`／`think`／`shock`
+   - `face`：表情貼圖。Allan：`laugh` `point` `think` `worry` `wow` `wink`；阿拉蕾：`cheer` `confused` `cry` `explain` `laugh` `think` `wink` `wow`
 2. 編輯畫面：`index.html` 中對應的 `<section class="scene">`（元素加 `data-s="n"` 於第 n 步出現、`data-until="n"` 於第 n 步隱藏）
 3. 重新產生語音、時間軸與講稿：
    ```bash
@@ -53,6 +57,10 @@
    node tools/render_video.js --shots 30,120 # 指定秒數截圖預覽
    ```
 
-語音：Allan 使用 `zh-TW-YunJheNeural`（台灣男聲），阿拉蕾使用 `zh-TW-HsiaoYuNeural` 調高音調與語速。
+角色素材：`assets/chars/`，由角色設定圖切出（全身去背＋表情頭像）：
+```bash
+python3 tools/cut_sprites.py <Allan設定圖.jpg> <阿拉蕾設定圖.jpg>
+```
+換圖時若版面位置不同，需調整 `tools/cut_sprites.py` 的裁切座標，以及 `index.html` 中嘴型疊圖（`.mouth`）的座標。
 
-> 備註：阿拉蕾為《怪博士與機器娃娃》角色，本教材中的造型為致敬風格的原創繪製；若用於商業授課或公開發布，請自行評估著作權／角色授權。
+語音：Allan 使用 `zh-TW-YunJheNeural`（台灣男聲），阿拉蕾使用 `zh-TW-HsiaoYuNeural` 調高音調與語速。

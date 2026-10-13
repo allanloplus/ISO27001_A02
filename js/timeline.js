@@ -17,67 +17,67 @@ window.TIMELINE = {
    "id": "s02",
    "label": "6.1 篩選",
    "phase": 1,
-   "start": 117.864
+   "start": 113.098
   },
   {
    "id": "s03",
    "label": "6.1 稽核與缺失",
    "phase": 1,
-   "start": 180.398
+   "start": 175.632
   },
   {
    "id": "s04",
    "label": "6.2 聘用條款及條件",
    "phase": 1,
-   "start": 244.002
+   "start": 239.236
   },
   {
    "id": "s05",
    "label": "6.3 認知及教育訓練",
    "phase": 2,
-   "start": 307.39
+   "start": 302.624
   },
   {
    "id": "s06",
    "label": "6.4 獎懲過程",
    "phase": 2,
-   "start": 391.648
+   "start": 386.882
   },
   {
    "id": "s07",
    "label": "6.5 聘用終止或變更",
    "phase": 3,
-   "start": 470.098
+   "start": 465.332
   },
   {
    "id": "s08",
    "label": "6.6 保密協議",
    "phase": 4,
-   "start": 550.828
+   "start": 546.062
   },
   {
    "id": "s09",
    "label": "稽核秘技",
    "phase": 4,
-   "start": 610.674
+   "start": 605.908
   },
   {
    "id": "s10",
    "label": "缺失排行榜",
    "phase": 4,
-   "start": 653.466
+   "start": 648.7
   },
   {
    "id": "s11",
    "label": "隨堂小測驗",
    "phase": 4,
-   "start": 698.556
+   "start": 693.79
   },
   {
    "id": "s12",
    "label": "總結",
    "phase": 4,
-   "start": 741.564
+   "start": 736.798
   }
  ],
  "lines": [
@@ -87,6 +87,7 @@ window.TIMELINE = {
    "text": "各位學員大家好！我是你們的資安顧問兼稽核員，Allan Lo！今天要聊一個常常被低估，但是一出事就很大條的主題，人資安全！",
    "step": null,
    "emote": null,
+   "face": "wink",
    "start": 1.2,
    "end": 12.84
   },
@@ -96,6 +97,7 @@ window.TIMELINE = {
    "text": "嗯洽～！大家好，我是助教阿拉蕾！老師老師，人資安全不是人資部門的事嗎？跟資安有什麼關係呀？",
    "step": null,
    "emote": "jump",
+   "face": "cheer",
    "start": 13.19,
    "end": 26.198
   },
@@ -105,6 +107,7 @@ window.TIMELINE = {
    "text": "問得好！很多資安事件，追根究柢都是「人」的問題。系統再強，員工離職把資料帶走，防火牆也擋不住啊！",
    "step": null,
    "emote": null,
+   "face": "point",
    "start": 26.548,
    "end": 37.228
   },
@@ -114,6 +117,7 @@ window.TIMELINE = {
    "text": "喔呦呦～原來最大的漏洞是人類！那我是機器人，應該很安全吧？",
    "step": null,
    "emote": "wow",
+   "face": "wow",
    "start": 37.578,
    "end": 45.762
   },
@@ -123,6 +127,7 @@ window.TIMELINE = {
    "text": "哈哈，機器人也要簽保密協議喔！今天我們用三個面向來看：ISMS作業重點、稽核查核重點，還有常見的缺失。",
    "step": 1,
    "emote": null,
+   "face": "laugh",
    "start": 46.112,
    "end": 56.12
   },
@@ -132,6 +137,7 @@ window.TIMELINE = {
    "text": "在ISO 27001:2022裡，控制措施除了分成組織、人員、實體、技術四大主題，還可以用「運作能力」這個屬性來分類，人資安全就是其中一類。",
    "step": 1,
    "emote": null,
+   "face": null,
    "start": 57.72,
    "end": 70.344
   },
@@ -141,6 +147,7 @@ window.TIMELINE = {
    "text": "我們依照員工的生命週期切成三個階段。第一階段，聘用前：6.1 篩選，以及6.2 聘用條款及條件。",
    "step": 2,
    "emote": null,
+   "face": null,
    "start": 70.694,
    "end": 80.39
   },
@@ -150,6 +157,7 @@ window.TIMELINE = {
    "text": "第二階段，聘用期間：6.3 資訊安全認知及教育訓練，以及6.4 獎懲過程。",
    "step": 3,
    "emote": null,
+   "face": null,
    "start": 80.74,
    "end": 87.772
   },
@@ -159,6 +167,7 @@ window.TIMELINE = {
    "text": "第三階段，聘用終止或變更：6.5 聘用終止或變更後之責任。",
    "step": 4,
    "emote": null,
+   "face": null,
    "start": 88.122,
    "end": 93.858
   },
@@ -168,6 +177,7 @@ window.TIMELINE = {
    "text": "咦？那6.6 機密性或保密協議，是放在哪一個階段呢？",
    "step": null,
    "emote": "think",
+   "face": "confused",
    "start": 94.208,
    "end": 101.048
   },
@@ -177,17 +187,9 @@ window.TIMELINE = {
    "text": "好眼力！6.6是橫跨整個流程的。進來的時候要簽，離開之後還要持續有效，所以它是一條貫穿全程的紅線！",
    "step": 5,
    "emote": null,
+   "face": "point",
    "start": 101.398,
    "end": 112.198
-  },
-  {
-   "scene": 1,
-   "who": "arale",
-   "text": "就像我帽子上的翅膀，走到哪裡都帶著！",
-   "step": null,
-   "emote": "jump",
-   "start": 112.548,
-   "end": 116.964
   },
   {
    "scene": 2,
@@ -195,8 +197,9 @@ window.TIMELINE = {
    "text": "先來看6.1 篩選。標準要求：人員在加入組織前，以及持續期間，都要做背景查核，並考量法規、職務要求、所存取資訊的分類等級，以及可能的風險。",
    "step": 1,
    "emote": null,
-   "start": 118.564,
-   "end": 132.268
+   "face": null,
+   "start": 113.798,
+   "end": 127.502
   },
   {
    "scene": 2,
@@ -204,8 +207,9 @@ window.TIMELINE = {
    "text": "作業重點第一個，依職務風險分級。一般行政人員，跟系統管理者、財務人員，查核的深度應該不一樣。",
    "step": 2,
    "emote": null,
-   "start": 132.618,
-   "end": 142.578
+   "face": "point",
+   "start": 127.852,
+   "end": 137.812
   },
   {
    "scene": 2,
@@ -213,8 +217,9 @@ window.TIMELINE = {
    "text": "第二，查核項目要明確，例如學經歷證明、專業證照、前雇主查證；敏感職務可以要求警察刑事紀錄證明，也就是大家說的良民證。",
    "step": 3,
    "emote": null,
-   "start": 142.928,
-   "end": 153.656
+   "face": null,
+   "start": 138.162,
+   "end": 148.89
   },
   {
    "scene": 2,
@@ -222,8 +227,9 @@ window.TIMELINE = {
    "text": "第三，一定要符合個資法！要告知蒐集目的、取得當事人同意，不能什麼都查，查完又亂放。",
    "step": 4,
    "emote": null,
-   "start": 154.006,
-   "end": 163.006
+   "face": "worry",
+   "start": 149.24,
+   "end": 158.24
   },
   {
    "scene": 2,
@@ -231,8 +237,9 @@ window.TIMELINE = {
    "text": "哇！原來背景調查查過頭，也會違法喔？",
    "step": null,
    "emote": "wow",
-   "start": 163.356,
-   "end": 169.38
+   "face": "wow",
+   "start": 158.59,
+   "end": 164.614
   },
   {
    "scene": 2,
@@ -240,8 +247,9 @@ window.TIMELINE = {
    "text": "對，查過頭也是風險。還有，派遣人員、駐點的外包人員，也要透過合約，要求廠商落實篩選。",
    "step": 5,
    "emote": null,
-   "start": 169.73,
-   "end": 179.498
+   "face": "point",
+   "start": 164.964,
+   "end": 174.732
   },
   {
    "scene": 3,
@@ -249,8 +257,9 @@ window.TIMELINE = {
    "text": "那稽核員會怎麼查？我會從人員名冊抽樣，特別挑系統管理者跟新進人員，請你拿出背景查核紀錄跟個資同意書。",
    "step": 1,
    "emote": null,
-   "start": 181.098,
-   "end": 190.866
+   "face": "think",
+   "start": 176.332,
+   "end": 186.1
   },
   {
    "scene": 3,
@@ -258,8 +267,9 @@ window.TIMELINE = {
    "text": "再看程序書有沒有定義哪些職務要查哪些項目，以及外包合約裡有沒有篩選條款。",
    "step": 2,
    "emote": null,
-   "start": 191.216,
-   "end": 197.72
+   "face": null,
+   "start": 186.45,
+   "end": 192.954
   },
   {
    "scene": 3,
@@ -267,8 +277,9 @@ window.TIMELINE = {
    "text": "那最常見的缺失是什麼呢？",
    "step": null,
    "emote": "think",
-   "start": 198.07,
-   "end": 201.286
+   "face": "think",
+   "start": 193.304,
+   "end": 196.52
   },
   {
    "scene": 3,
@@ -276,8 +287,9 @@ window.TIMELINE = {
    "text": "第一，程序寫了要依職務分級，實際上每個人都只交一份履歷。第二，外包人員完全沒有篩選要求。第三，查核資料放在人資同仁的個人電腦，沒有任何存取控制。",
    "step": 3,
    "emote": null,
-   "start": 201.636,
-   "end": 216.54
+   "face": "worry",
+   "start": 196.87,
+   "end": 211.774
   },
   {
    "scene": 3,
@@ -285,8 +297,9 @@ window.TIMELINE = {
    "text": "分享一個管理案例。某公司聘了一位財務主管，履歷非常漂亮，但沒有做前雇主查證。後來才發現他在前公司就有挪用公款的紀錄，到職半年又出事了。",
    "step": 4,
    "emote": null,
-   "start": 216.89,
-   "end": 230.786
+   "face": "worry",
+   "start": 212.124,
+   "end": 226.02
   },
   {
    "scene": 3,
@@ -294,8 +307,9 @@ window.TIMELINE = {
    "text": "喔呦呦！早點打一通電話問問就好了嘛！",
    "step": null,
    "emote": "shock",
-   "start": 231.136,
-   "end": 237.256
+   "face": "cry",
+   "start": 226.37,
+   "end": 232.49
   },
   {
    "scene": 3,
@@ -303,8 +317,9 @@ window.TIMELINE = {
    "text": "沒錯！篩選的成本很低，事後補救的成本很高。",
    "step": null,
    "emote": null,
-   "start": 237.606,
-   "end": 243.102
+   "face": "point",
+   "start": 232.84,
+   "end": 238.336
   },
   {
    "scene": 4,
@@ -312,8 +327,9 @@ window.TIMELINE = {
    "text": "接著是6.2 聘用條款及條件。重點是：聘用契約要明確寫出人員與組織雙方的資訊安全責任。",
    "step": 1,
    "emote": null,
-   "start": 244.702,
-   "end": 253.654
+   "face": null,
+   "start": 239.936,
+   "end": 248.888
   },
   {
    "scene": 4,
@@ -321,8 +337,9 @@ window.TIMELINE = {
    "text": "作業重點包括：在勞動契約或工作規則中納入資安條款、明確智慧財產權的歸屬、說明違反時的處置，以及哪些責任在離職後仍然持續有效。",
    "step": 2,
    "emote": null,
-   "start": 254.004,
-   "end": 265.02
+   "face": null,
+   "start": 249.238,
+   "end": 260.254
   },
   {
    "scene": 4,
@@ -330,8 +347,9 @@ window.TIMELINE = {
    "text": "而且簽約前，要先讓人員了解相關的資安政策；簽了之後，才給權限。",
    "step": 3,
    "emote": null,
-   "start": 265.37,
-   "end": 271.73
+   "face": "point",
+   "start": 260.604,
+   "end": 266.964
   },
   {
    "scene": 4,
@@ -339,8 +357,9 @@ window.TIMELINE = {
    "text": "先簽約，再拿鑰匙！就像我要先充飽電，才能出門玩！",
    "step": null,
    "emote": "jump",
-   "start": 272.08,
-   "end": 279.352
+   "face": "cheer",
+   "start": 267.314,
+   "end": 274.586
   },
   {
    "scene": 4,
@@ -348,8 +367,9 @@ window.TIMELINE = {
    "text": "稽核時，我會比對三個日期：契約簽署日、到職日、帳號開通日。",
    "step": 4,
    "emote": null,
-   "start": 279.702,
-   "end": 286.11
+   "face": "think",
+   "start": 274.936,
+   "end": 281.344
   },
   {
    "scene": 4,
@@ -357,8 +377,9 @@ window.TIMELINE = {
    "text": "最常見的缺失，就是帳號第一天就開好了，契約或保密條款卻一週後才補簽。還有契約範本好幾年沒更新，完全沒提到資安，也沒涵蓋遠距工作和雲端服務。",
    "step": 5,
    "emote": null,
-   "start": 286.46,
-   "end": 299.276
+   "face": "worry",
+   "start": 281.694,
+   "end": 294.51
   },
   {
    "scene": 4,
@@ -366,8 +387,9 @@ window.TIMELINE = {
    "text": "順序反了！就像先吃便當再付錢，萬一跑掉怎麼辦！",
    "step": null,
    "emote": "shock",
-   "start": 299.626,
-   "end": 306.49
+   "face": "explain",
+   "start": 294.86,
+   "end": 301.724
   },
   {
    "scene": 5,
@@ -375,8 +397,9 @@ window.TIMELINE = {
    "text": "進入聘用期間！6.3 資訊安全認知、教育及訓練。注意，這裡有三個層次：認知、教育、訓練。",
    "step": 1,
    "emote": null,
-   "start": 308.09,
-   "end": 319.346
+   "face": null,
+   "start": 303.324,
+   "end": 314.58
   },
   {
    "scene": 5,
@@ -384,8 +407,9 @@ window.TIMELINE = {
    "text": "認知，是讓全員知道「為什麼」，像宣導海報、電子報；教育，是讓人懂「是什麼」，例如資安政策課程；訓練，是教專業人員「怎麼做」，像系統管理者的安全設定實作。",
    "step": 2,
    "emote": null,
-   "start": 319.696,
-   "end": 332.8
+   "face": null,
+   "start": 314.93,
+   "end": 328.034
   },
   {
    "scene": 5,
@@ -393,8 +417,9 @@ window.TIMELINE = {
    "text": "作業重點：新進人員到職訓練、全員年度訓練、依職務規劃專業訓練；政策或威脅有重大變化時，也要即時更新內容。",
    "step": 3,
    "emote": null,
-   "start": 333.15,
-   "end": 343.062
+   "face": null,
+   "start": 328.384,
+   "end": 338.296
   },
   {
    "scene": 5,
@@ -402,8 +427,9 @@ window.TIMELINE = {
    "text": "那上完課，就結束了嗎？",
    "step": null,
    "emote": "think",
-   "start": 343.412,
-   "end": 346.868
+   "face": "think",
+   "start": 338.646,
+   "end": 342.102
   },
   {
    "scene": 5,
@@ -411,8 +437,9 @@ window.TIMELINE = {
    "text": "不！還要評估有效性，像課後測驗、社交工程演練的點擊率趨勢。這也呼應條文7.2 能力，以及7.3 認知。",
    "step": 4,
    "emote": null,
-   "start": 347.218,
-   "end": 358.45
+   "face": "point",
+   "start": 342.452,
+   "end": 353.684
   },
   {
    "scene": 5,
@@ -420,8 +447,9 @@ window.TIMELINE = {
    "text": "我輔導過一家製造業，第一次社交工程演練，點擊率高達百分之二十三。經過針對性訓練，加上主管帶頭參與，半年後降到百分之四。這就是有效性的最佳證據！",
    "step": 5,
    "emote": null,
-   "start": 358.8,
-   "end": 373.344
+   "face": "laugh",
+   "start": 354.034,
+   "end": 368.578
   },
   {
    "scene": 5,
@@ -429,8 +457,9 @@ window.TIMELINE = {
    "text": "從二十三降到四！阿拉蕾給大家拍拍手！",
    "step": null,
    "emote": "jump",
-   "start": 373.694,
-   "end": 379.142
+   "face": "cheer",
+   "start": 368.928,
+   "end": 374.376
   },
   {
    "scene": 5,
@@ -438,8 +467,9 @@ window.TIMELINE = {
    "text": "常見缺失：只有簽到表，沒有教材和測驗；高階主管跟外包人員都沒上課；訓練計畫年年複製貼上，沒有依照風險評鑑或資安事件來調整。",
    "step": 6,
    "emote": null,
-   "start": 379.492,
-   "end": 390.748
+   "face": "worry",
+   "start": 374.726,
+   "end": 385.982
   },
   {
    "scene": 6,
@@ -447,8 +477,9 @@ window.TIMELINE = {
    "text": "6.4 獎懲過程。標準要求要有正式且已傳達的懲處過程，對違反資安政策的人員採取行動。",
    "step": 1,
    "emote": null,
-   "start": 392.348,
-   "end": 401.228
+   "face": null,
+   "start": 387.582,
+   "end": 396.462
   },
   {
    "scene": 6,
@@ -456,8 +487,9 @@ window.TIMELINE = {
    "text": "作業重點：處理要分級、要公平，考量違規的性質、嚴重程度、是不是故意；同時要符合勞基法與工作規則，並讓全體員工知道。",
    "step": 2,
    "emote": null,
-   "start": 401.578,
-   "end": 412.474
+   "face": null,
+   "start": 396.812,
+   "end": 407.708
   },
   {
    "scene": 6,
@@ -465,8 +497,9 @@ window.TIMELINE = {
    "text": "只有懲罰嗎？好可怕喔～",
    "step": null,
    "emote": "shock",
-   "start": 412.824,
-   "end": 416.976
+   "face": "cry",
+   "start": 408.058,
+   "end": 412.21
   },
   {
    "scene": 6,
@@ -474,8 +507,9 @@ window.TIMELINE = {
    "text": "不只喔！我們叫它「獎懲」，鼓勵也很重要。例如主動通報可疑郵件的同仁給予嘉獎，大家才會願意講。",
    "step": 3,
    "emote": null,
-   "start": 417.326,
-   "end": 427.214
+   "face": "wink",
+   "start": 412.56,
+   "end": 422.448
   },
   {
    "scene": 6,
@@ -483,8 +517,9 @@ window.TIMELINE = {
    "text": "稽核時我會問：今年有沒有資安違規事件？怎麼處理的？有沒有依照獎懲辦法？如果有事件卻都沒有處理，獎懲過程就只是紙上談兵。",
    "step": 4,
    "emote": null,
-   "start": 427.564,
-   "end": 440.908
+   "face": "think",
+   "start": 422.798,
+   "end": 436.142
   },
   {
    "scene": 6,
@@ -492,8 +527,9 @@ window.TIMELINE = {
    "text": "常見缺失：工作規則的懲處條款完全沒提到資安；有違規卻只有口頭告誡、沒有紀錄；或是處理標準不一致，主管犯錯就不了了之。",
    "step": 5,
    "emote": null,
-   "start": 441.258,
-   "end": 452.058
+   "face": "worry",
+   "start": 436.492,
+   "end": 447.292
   },
   {
    "scene": 6,
@@ -501,8 +537,9 @@ window.TIMELINE = {
    "text": "管理案例：某公司業務用私人信箱寄出客戶名單，公司依獎懲辦法記小過、安排重新訓練，同時檢討資料外洩防護的設定。這就是完整的處理。",
    "step": 6,
    "emote": null,
-   "start": 452.408,
-   "end": 464.624
+   "face": null,
+   "start": 447.642,
+   "end": 459.858
   },
   {
    "scene": 6,
@@ -510,8 +547,9 @@ window.TIMELINE = {
    "text": "懲處加上改善，才是完整的PDCA！",
    "step": null,
    "emote": "jump",
-   "start": 464.974,
-   "end": 469.198
+   "face": "wink",
+   "start": 460.208,
+   "end": 464.432
   },
   {
    "scene": 7,
@@ -519,8 +557,9 @@ window.TIMELINE = {
    "text": "來到最後一個階段：6.5 聘用終止或變更後之責任。要定義離職或調職後仍然有效的資安責任，並且確實傳達與執行。",
    "step": 1,
    "emote": null,
-   "start": 470.798,
-   "end": 481.286
+   "face": null,
+   "start": 466.032,
+   "end": 476.52
   },
   {
    "scene": 7,
@@ -528,8 +567,9 @@ window.TIMELINE = {
    "text": "作業重點，我整理成離職三件事：第一，提醒持續有效的保密責任；第二，歸還資產，呼應控制措施5.11；第三，移除存取權限，呼應5.18。",
    "step": 2,
    "emote": null,
-   "start": 481.636,
-   "end": 494.116
+   "face": null,
+   "start": 476.87,
+   "end": 489.35
   },
   {
    "scene": 7,
@@ -537,8 +577,9 @@ window.TIMELINE = {
    "text": "別忘了「變更」也算！調職的時候，舊的權限要收回，不然權限會一直累加，變成所謂的權限潛變。",
    "step": 3,
    "emote": null,
-   "start": 494.466,
-   "end": 503.514
+   "face": "point",
+   "start": 489.7,
+   "end": 498.748
   },
   {
    "scene": 7,
@@ -546,8 +587,9 @@ window.TIMELINE = {
    "text": "權限越來越多，就像我的零食抽屜，越塞越滿！",
    "step": null,
    "emote": "wow",
-   "start": 503.864,
-   "end": 509.336
+   "face": "laugh",
+   "start": 499.098,
+   "end": 504.57
   },
   {
    "scene": 7,
@@ -555,8 +597,9 @@ window.TIMELINE = {
    "text": "稽核我最愛的一招：拿人資的離職名單，去比對AD、VPN、ERP的帳號清單，看停用日期有沒有晚於離職日。",
    "step": 4,
    "emote": null,
-   "start": 509.686,
-   "end": 518.494
+   "face": "wink",
+   "start": 504.92,
+   "end": 513.728
   },
   {
    "scene": 7,
@@ -564,8 +607,9 @@ window.TIMELINE = {
    "text": "常見缺失超多：離職三個月帳號還活著，甚至還有VPN登入紀錄；共用帳號的密碼沒有更換；外包人員合約結束了，人資卻不知道，因為他根本不在員工名冊上。",
    "step": 5,
    "emote": null,
-   "start": 518.844,
-   "end": 531.132
+   "face": "worry",
+   "start": 514.078,
+   "end": 526.366
   },
   {
    "scene": 7,
@@ -573,8 +617,9 @@ window.TIMELINE = {
    "text": "管理案例：某科技公司一位工程師，離職前一個月大量下載原始碼，離職後還用沒停用的VPN帳號登入。最後公司依營業秘密法提告，但損失已經造成了。",
    "step": 6,
    "emote": null,
-   "start": 531.482,
-   "end": 544.178
+   "face": "worry",
+   "start": 526.716,
+   "end": 539.412
   },
   {
    "scene": 7,
@@ -582,8 +627,9 @@ window.TIMELINE = {
    "text": "喔呦呦～離開的時候，帳號要記得關燈關門啦！",
    "step": null,
    "emote": "shock",
-   "start": 544.528,
-   "end": 549.928
+   "face": "explain",
+   "start": 539.762,
+   "end": 545.162
   },
   {
    "scene": 8,
@@ -591,8 +637,9 @@ window.TIMELINE = {
    "text": "接著是貫穿全程的6.6 機密性或保密協議。組織要識別需求、文件化、定期審查保密協議，並由人員及其他相關利害關係者簽署。",
    "step": 1,
    "emote": null,
-   "start": 551.528,
-   "end": 563.096
+   "face": null,
+   "start": 546.762,
+   "end": 558.33
   },
   {
    "scene": 8,
@@ -600,8 +647,9 @@ window.TIMELINE = {
    "text": "協議內容建議包含：要保護的資訊範圍、協議期間、到期後資訊的歸還或銷毀、違反的處置、組織的稽核權利，以及智慧財產權歸屬。",
    "step": 2,
    "emote": null,
-   "start": 563.446,
-   "end": 574.654
+   "face": null,
+   "start": 558.68,
+   "end": 569.888
   },
   {
    "scene": 8,
@@ -609,8 +657,9 @@ window.TIMELINE = {
    "text": "那實習生、維修廠商，也要簽嗎？",
    "step": null,
    "emote": "think",
-   "start": 575.004,
-   "end": 579.684
+   "face": "confused",
+   "start": 570.238,
+   "end": 574.918
   },
   {
    "scene": 8,
@@ -618,8 +667,9 @@ window.TIMELINE = {
    "text": "很好的問題！只要可能接觸到機密資訊，都要評估。實習生、顧問、駐點廠商，甚至像我這種稽核員，都會簽保密協議。",
    "step": 3,
    "emote": null,
-   "start": 580.034,
-   "end": 592.226
+   "face": "laugh",
+   "start": 575.268,
+   "end": 587.46
   },
   {
    "scene": 8,
@@ -627,8 +677,9 @@ window.TIMELINE = {
    "text": "稽核重點：抽樣核對簽署日期與權限開通日期、確認範本有沒有定期審查，以及法務是否確認內容符合法規。",
    "step": 4,
    "emote": null,
-   "start": 592.576,
-   "end": 601.504
+   "face": "think",
+   "start": 587.81,
+   "end": 596.738
   },
   {
    "scene": 8,
@@ -636,8 +687,9 @@ window.TIMELINE = {
    "text": "常見缺失：範本十年沒有審查；實習生、外包人員沒簽；或是說有簽，但是找不到正本。",
    "step": 5,
    "emote": null,
-   "start": 601.854,
-   "end": 609.774
+   "face": "worry",
+   "start": 597.088,
+   "end": 605.008
   },
   {
    "scene": 9,
@@ -645,8 +697,9 @@ window.TIMELINE = {
    "text": "學完六個控制措施，分享稽核員的秘密武器：三表交叉比對！",
    "step": 1,
    "emote": null,
-   "start": 611.374,
-   "end": 616.918
+   "face": "wink",
+   "start": 606.608,
+   "end": 612.152
   },
   {
    "scene": 9,
@@ -654,8 +707,9 @@ window.TIMELINE = {
    "text": "第一張，人資名冊，包含到職、調職、離職日期。第二張，帳號權限清單，像AD、ERP、VPN。第三張，簽署與訓練紀錄，包括契約、保密協議、教育訓練。",
    "step": 2,
    "emote": null,
-   "start": 617.268,
-   "end": 633.828
+   "face": null,
+   "start": 612.502,
+   "end": 629.062
   },
   {
    "scene": 9,
@@ -663,8 +717,9 @@ window.TIMELINE = {
    "text": "用員工編號把三張表串起來，就能一次抓出：先開權限後簽約、離職未停權、調職未調權，還有沒上課的人。",
    "step": 3,
    "emote": null,
-   "start": 634.178,
-   "end": 643.37
+   "face": "point",
+   "start": 629.412,
+   "end": 638.604
   },
   {
    "scene": 9,
@@ -672,8 +727,9 @@ window.TIMELINE = {
    "text": "好像偵探在辦案！真相只有一個！",
    "step": null,
    "emote": "jump",
-   "start": 643.72,
-   "end": 648.496
+   "face": "cheer",
+   "start": 638.954,
+   "end": 643.73
   },
   {
    "scene": 9,
@@ -681,8 +737,9 @@ window.TIMELINE = {
    "text": "哈哈，阿拉蕾，你串錯卡通了啦！",
    "step": null,
    "emote": null,
-   "start": 648.846,
-   "end": 652.566
+   "face": "laugh",
+   "start": 644.08,
+   "end": 647.8
   },
   {
    "scene": 10,
@@ -690,8 +747,9 @@ window.TIMELINE = {
    "text": "最後，幫大家整理人資安全常見缺失排行榜！",
    "step": null,
    "emote": null,
-   "start": 654.166,
-   "end": 658.798
+   "face": "laugh",
+   "start": 649.4,
+   "end": 654.032
   },
   {
    "scene": 10,
@@ -699,8 +757,9 @@ window.TIMELINE = {
    "text": "第五名，獎懲辦法沒有納入資安，或是沒有公告。",
    "step": 1,
    "emote": null,
-   "start": 659.148,
-   "end": 663.948
+   "face": null,
+   "start": 654.382,
+   "end": 659.182
   },
   {
    "scene": 10,
@@ -708,8 +767,9 @@ window.TIMELINE = {
    "text": "第四名，教育訓練只有簽到，缺少有效性評估。",
    "step": 2,
    "emote": null,
-   "start": 664.298,
-   "end": 669.026
+   "face": null,
+   "start": 659.532,
+   "end": 664.26
   },
   {
    "scene": 10,
@@ -717,8 +777,9 @@ window.TIMELINE = {
    "text": "第三名，外包、派遣、實習生被遺漏。",
    "step": 3,
    "emote": null,
-   "start": 669.376,
-   "end": 673.792
+   "face": null,
+   "start": 664.61,
+   "end": 669.026
   },
   {
    "scene": 10,
@@ -726,8 +787,9 @@ window.TIMELINE = {
    "text": "第二名，保密協議簽署晚於權限開通。",
    "step": 4,
    "emote": null,
-   "start": 674.142,
-   "end": 677.958
+   "face": null,
+   "start": 669.376,
+   "end": 673.192
   },
   {
    "scene": 10,
@@ -735,8 +797,9 @@ window.TIMELINE = {
    "text": "第一名，離職或調職，權限沒有即時移除！",
    "step": 5,
    "emote": null,
-   "start": 678.308,
-   "end": 682.652
+   "face": "wow",
+   "start": 673.542,
+   "end": 677.886
   },
   {
    "scene": 10,
@@ -744,8 +807,9 @@ window.TIMELINE = {
    "text": "第一名竟然是帳號沒關！",
    "step": null,
    "emote": "shock",
-   "start": 683.002,
-   "end": 686.338
+   "face": "wow",
+   "start": 678.236,
+   "end": 681.572
   },
   {
    "scene": 10,
@@ -753,8 +817,9 @@ window.TIMELINE = {
    "text": "對，這也是我稽核時開出最多不符合事項的地方。建議人資和IT建立離職、調職的自動通報流程，最好直接跟人資系統串接。",
    "step": 6,
    "emote": null,
-   "start": 686.688,
-   "end": 697.656
+   "face": "point",
+   "start": 681.922,
+   "end": 692.89
   },
   {
    "scene": 11,
@@ -762,8 +827,9 @@ window.TIMELINE = {
    "text": "現在換阿拉蕾出題！某員工星期一到職，帳號星期一開通，保密協議星期五才簽，請問有沒有問題？",
    "step": 1,
    "emote": "jump",
-   "start": 699.256,
-   "end": 710.968
+   "face": "explain",
+   "start": 694.49,
+   "end": 706.202
   },
   {
    "scene": 11,
@@ -771,8 +837,9 @@ window.TIMELINE = {
    "text": "有問題！這不符合6.2和6.6的精神。應該先完成簽署，再開通權限。",
    "step": 2,
    "emote": null,
-   "start": 711.318,
-   "end": 720.126
+   "face": "point",
+   "start": 706.552,
+   "end": 715.36
   },
   {
    "scene": 11,
@@ -780,8 +847,9 @@ window.TIMELINE = {
    "text": "第二題！小明從業務部調到研發部，原本業務系統的權限怎麼辦？",
    "step": 3,
    "emote": "think",
-   "start": 720.476,
-   "end": 728.276
+   "face": "think",
+   "start": 715.71,
+   "end": 723.51
   },
   {
    "scene": 11,
@@ -789,8 +857,9 @@ window.TIMELINE = {
    "text": "依照6.5，職務變更也要重新檢視權限，收回不需要的業務系統權限，並保留審核紀錄。",
    "step": 4,
    "emote": null,
-   "start": 728.626,
-   "end": 736.282
+   "face": "point",
+   "start": 723.86,
+   "end": 731.516
   },
   {
    "scene": 11,
@@ -798,8 +867,9 @@ window.TIMELINE = {
    "text": "全部答對！老師好厲害！",
    "step": null,
    "emote": "jump",
-   "start": 736.632,
-   "end": 740.664
+   "face": "cheer",
+   "start": 731.866,
+   "end": 735.898
   },
   {
    "scene": 12,
@@ -807,8 +877,9 @@ window.TIMELINE = {
    "text": "總結一下。聘用前：篩選要依風險、契約要寫清楚。",
    "step": 1,
    "emote": null,
-   "start": 742.264,
-   "end": 748.504
+   "face": null,
+   "start": 737.498,
+   "end": 743.738
   },
   {
    "scene": 12,
@@ -816,8 +887,9 @@ window.TIMELINE = {
    "text": "聘用期間：訓練要有效、獎懲要公平。",
    "step": 2,
    "emote": null,
-   "start": 748.854,
-   "end": 753.054
+   "face": null,
+   "start": 744.088,
+   "end": 748.288
   },
   {
    "scene": 12,
@@ -825,8 +897,9 @@ window.TIMELINE = {
    "text": "終止或變更：責任要延續、權限要收回。而保密協議，貫穿全程！",
    "step": 3,
    "emote": null,
-   "start": 753.404,
-   "end": 760.868
+   "face": null,
+   "start": 748.638,
+   "end": 756.102
   },
   {
    "scene": 12,
@@ -834,8 +907,9 @@ window.TIMELINE = {
    "text": "記住一句話：資安，從「人」開始，也從「人」結束！",
    "step": 4,
    "emote": null,
-   "start": 761.218,
-   "end": 766.09
+   "face": "point",
+   "start": 756.452,
+   "end": 761.324
   },
   {
    "scene": 12,
@@ -843,8 +917,9 @@ window.TIMELINE = {
    "text": "嗯洽！謝謝大家收看，我們下一堂課見！拜拜～",
    "step": null,
    "emote": "jump",
-   "start": 766.44,
-   "end": 773.28
+   "face": "cheer",
+   "start": 761.674,
+   "end": 768.514
   },
   {
    "scene": 12,
@@ -852,9 +927,10 @@ window.TIMELINE = {
    "text": "我是Allan Lo，我們下次見！",
    "step": null,
    "emote": null,
-   "start": 773.63,
-   "end": 776.606
+   "face": "wink",
+   "start": 768.864,
+   "end": 771.84
   }
  ],
- "duration": 779.106
+ "duration": 774.34
 };

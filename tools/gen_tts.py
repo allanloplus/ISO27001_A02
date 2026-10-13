@@ -118,7 +118,7 @@ async def main(force=False):
             end = len(out) / 2 / SR
             timeline["lines"].append({
                 "scene": si, "who": ln["who"], "text": ln["text"],
-                "step": ln.get("step"), "emote": ln.get("emote"),
+                "step": ln.get("step"), "emote": ln.get("emote"), "face": ln.get("face"),
                 "start": round(start, 3), "end": round(end, 3)})
         out += silence(TAIL if si < len(script["scenes"]) - 1 else END)
         timeline["scenes"].append({"id": s["id"], "label": s["label"], "phase": s["phase"],
